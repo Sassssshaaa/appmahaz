@@ -144,7 +144,6 @@
         }
         .theme-toggle { font-size: 20px; padding: 6px 10px; }
 
-        /* ПОИСК */
         .search-container {
             width: 100%;
             margin-top: 8px;
@@ -545,7 +544,6 @@
         }
         .about-list li::before { content: "✦"; color: var(--primary); font-size: 16px; }
 
-        /* ===== АДМИН-ПАНЕЛЬ (скрыта, открывается по паролю) ===== */
         .admin-panel {
             position: fixed;
             top: 0;
@@ -824,7 +822,7 @@
 <body id="appBody">
     <header class="header">
         <div class="header-content">
-            <div class="logo" id="logoTrigger" title="Двойной клик для входа в админку">
+            <div class="logo" id="logoTrigger">
                 <div class="logo-icon">💨</div>
                 <span class="logo-text" id="shopNameDisplay">Cloud_Ost</span>
             </div>
@@ -1083,9 +1081,6 @@
         let currentCategory = 'all';
         let searchQuery = '';
 
-        // ===========================
-        //  СОХРАНЕНИЕ / ЗАГРУЗКА
-        // ===========================
         function saveData() {
             localStorage.setItem('cloud_ost_products', JSON.stringify(products));
             localStorage.setItem('cloud_ost_cart', JSON.stringify(cart));
@@ -1104,9 +1099,6 @@
             if (savedTheme) currentTheme = savedTheme;
         }
 
-        // ===========================
-        //  ТЕМА
-        // ===========================
         function applyTheme(theme) {
             currentTheme = theme;
             document.documentElement.setAttribute('data-theme', theme);
@@ -1118,9 +1110,6 @@
             applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
         }
 
-        // ===========================
-        //  TOAST
-        // ===========================
         function showToast(msg) {
             const old = document.querySelector('.toast');
             if (old) old.remove();
@@ -1131,14 +1120,10 @@
             setTimeout(() => t.remove(), 2500);
         }
 
-        // ===========================
-        //  ОТРИСОВКА ТОВАРОВ (с фильтром по категории + поиск)
-        // ===========================
         function renderProducts(categoryId = 'all', query = '') {
             const grid = document.getElementById('productGrid');
             let filtered = products;
 
-            // Фильтр по категории
             if (categoryId !== 'all' && categoryId !== 'sale') {
                 filtered = filtered.filter(p => p.category === categoryId);
             }
@@ -1146,7 +1131,6 @@
                 filtered = filtered.filter(p => p.oldPrice && p.oldPrice > p.price && showDiscounts);
             }
 
-            // Поиск
             if (query.trim()) {
                 const q = query.toLowerCase().trim();
                 filtered = filtered.filter(p =>
@@ -1189,14 +1173,10 @@
             }).join('');
         }
 
-        // Обновлённая функция для вызова с учётом поиска
         function refreshDisplay() {
             renderProducts(currentCategory, searchQuery);
         }
 
-        // ===========================
-        //  КОРЗИНА
-        // ===========================
         function addToCart(id) {
             const p = products.find(x => x.id === id);
             if (!p) return;
@@ -1271,13 +1251,10 @@
             document.getElementById('cartOverlay').classList.remove('active');
         }
 
-        // ===========================
-        //  ОФОРМЛЕНИЕ ЗАКАЗА + СПИСАНИЕ ТОВАРОВ
-        // ===========================
+        // ОФОРМЛЕНИЕ ЗАКАЗА + СПИСАНИЕ
         function checkout() {
             if (cart.length === 0) { showToast('🛒 Корзина пуста!'); return; }
 
-            // Проверяем, хватает ли товара на складе
             for (let item of cart) {
                 const product = products.find(p => p.id === item.id);
                 if (!product || product.stock < item.quantity) {
@@ -1286,7 +1263,6 @@
                 }
             }
 
-            // Списываем товары
             for (let item of cart) {
                 const product = products.find(p => p.id === item.id);
                 if (product) {
@@ -1334,7 +1310,7 @@
             updateCartUI();
             closeCart();
             saveData();
-            refreshDisplay(); // обновляем список (актуальные остатки)
+            refreshDisplay();
             showToast('🎉 Заказ оформлен!');
         }
 
@@ -1395,7 +1371,6 @@
             if (id === 'all') return;
             if (!confirm(`Удалить категорию?`)) return;
             categories = categories.filter(c => c.id !== id);
-            // Если удалили текущую категорию – переключаем на "все"
             if (currentCategory === id) currentCategory = 'all';
             renderCategories();
             renderCategoryList();
@@ -1734,27 +1709,23 @@
             updateCartUI();
             populateCategorySelect();
 
-            // Поиск
             document.getElementById('searchInput').addEventListener('input', function() {
                 searchQuery = this.value;
                 refreshDisplay();
             });
 
-            // Переключение темы
             document.getElementById('themeToggle').addEventListener('click', toggleTheme);
 
-            // Скрытый вход в админку (двойной клик на логотипе)
+            // Скрытый вход по двойному клику на логотипе (без подсказки)
             document.getElementById('logoTrigger').addEventListener('dblclick', function(e) {
                 showAdminLogin();
             });
 
-            // Корзина
             document.getElementById('cartBtn').addEventListener('click', toggleCart);
             document.getElementById('closeCart').addEventListener('click', closeCart);
             document.getElementById('cartOverlay').addEventListener('click', closeCart);
             document.getElementById('checkoutBtn').addEventListener('click', checkout);
 
-            // О нас
             document.getElementById('aboutBtn').addEventListener('click', () => {
                 document.getElementById('aboutModal').classList.add('active');
             });
@@ -1765,7 +1736,6 @@
                 if (e.target === this) this.classList.remove('active');
             });
 
-            // Админка (закрытие)
             document.getElementById('adminClose').addEventListener('click', () => {
                 document.getElementById('adminPanel').classList.remove('active');
             });
@@ -1773,7 +1743,6 @@
                 if (e.target === this) this.classList.remove('active');
             });
 
-            // Табы админки
             document.querySelectorAll('.admin-tab').forEach(tab => {
                 tab.addEventListener('click', function() {
                     document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
@@ -1783,7 +1752,6 @@
                 });
             });
 
-            // Escape
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') {
                     document.getElementById('adminPanel').classList.remove('active');
@@ -1792,7 +1760,6 @@
                 }
             });
 
-            // Навигация
             document.querySelectorAll('.nav-item').forEach(btn => {
                 btn.addEventListener('click', function() {
                     document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
@@ -1800,8 +1767,6 @@
                     if (this.dataset.page === 'cart') toggleCart();
                 });
             });
-
-            
         });
     </script>
 </body>
