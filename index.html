@@ -13,24 +13,21 @@
         }
 
         :root {
-            --primary: #FF6B9D;
-            --primary-dark: #E0557A;
-            --primary-light: #FF8EB5;
-            --bg-gradient-start: #FFFFFF;
-            --bg-gradient-end: #FFE8F0;
-            --bg-card: #FFFFFF;
-            --text-primary: #2D2D3F;
-            --text-secondary: #7A7A8C;
-            --border-light: rgba(255, 107, 157, 0.15);
-            --shadow-card: 0 8px 30px rgba(255, 107, 157, 0.12);
-            --accent: #FF6B9D;
-            --success: #4ECB71;
-            --warning: #FFD93D;
+            --primary: #E63946;
+            --primary-dark: #B71C1C;
+            --primary-light: #FF6B7A;
+            --bg-dark: #0B0B0B;
+            --bg-card: rgba(20, 20, 25, 0.85);
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0B0B8;
+            --border-light: rgba(255, 255, 255, 0.08);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+            --glass: rgba(255, 255, 255, 0.03);
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: linear-gradient(145deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            background: radial-gradient(ellipse at top, #2C0A0A, #0D0D0D 70%);
             color: var(--text-primary);
             min-height: 100vh;
             padding-bottom: 80px;
@@ -39,12 +36,13 @@
 
         /* Header */
         .header {
-            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            background: linear-gradient(135deg, rgba(230, 57, 70, 0.9), rgba(20, 0, 0, 0.95));
             padding: 16px 16px 12px;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 4px 20px rgba(255, 107, 157, 0.25);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .header-content {
@@ -56,25 +54,29 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .logo-icon {
-            font-size: 28px;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+            width: 44px;
+            height: 44px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
         }
 
         .logo-text {
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 700;
-            letter-spacing: 1px;
-            color: #fff;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            letter-spacing: 0.5px;
+            background: linear-gradient(135deg, #FFFFFF, #FFB3B3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(230, 57, 70, 0.3);
         }
 
         .header-actions {
@@ -83,11 +85,11 @@
         }
 
         .header-actions button {
-            background: rgba(255,255,255,0.25);
-            border: none;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             color: white;
             padding: 8px 12px;
-            border-radius: 12px;
+            border-radius: 30px;
             cursor: pointer;
             font-size: 18px;
             transition: all 0.3s;
@@ -96,7 +98,7 @@
         }
 
         .header-actions button:hover {
-            background: rgba(255,255,255,0.4);
+            background: rgba(255, 255, 255, 0.18);
             transform: scale(1.05);
         }
 
@@ -104,8 +106,8 @@
             position: absolute;
             top: -6px;
             right: -6px;
-            background: #FFD93D;
-            color: #2D2D3F;
+            background: var(--primary);
+            color: white;
             font-size: 11px;
             font-weight: 700;
             width: 20px;
@@ -114,37 +116,28 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            border: 2px solid #0D0D0D;
         }
 
-        /* Promo Banner */
+        /* Promo Banner (скрыт пока) */
         .promo-banner {
             margin-top: 10px;
-            background: rgba(255,255,255,0.3);
-            padding: 8px 16px;
-            border-radius: 20px;
+            background: rgba(230, 57, 70, 0.2);
+            padding: 6px 16px;
+            border-radius: 30px;
             text-align: center;
             font-size: 13px;
             font-weight: 500;
             backdrop-filter: blur(10px);
-            overflow: hidden;
-            color: #fff;
-        }
-
-        .promo-banner .promo-text {
-            display: inline-block;
-            animation: scroll-text 15s linear infinite;
-            white-space: nowrap;
-        }
-
-        @keyframes scroll-text {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: #FFD4D4;
+            display: none; /* скрываем, т.к. скидки не нужны */
         }
 
         /* Categories */
         .categories {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             padding: 16px;
             overflow-x: auto;
             scrollbar-width: none;
@@ -159,12 +152,12 @@
         }
 
         .category {
-            background: rgba(255,255,255,0.7);
+            background: rgba(255, 255, 255, 0.04);
             backdrop-filter: blur(8px);
-            border: 1px solid var(--border-light);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             color: var(--text-secondary);
-            padding: 8px 20px;
-            border-radius: 20px;
+            padding: 8px 24px;
+            border-radius: 30px;
             cursor: pointer;
             font-size: 14px;
             font-weight: 500;
@@ -177,40 +170,18 @@
             background: var(--primary);
             color: white;
             border-color: var(--primary);
-            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
+            box-shadow: 0 4px 20px rgba(230, 57, 70, 0.4);
         }
 
         .category:hover {
             transform: scale(1.05);
         }
 
-        /* Sticker Notification */
-        .sticker-notification {
-            position: fixed;
-            top: 80px;
-            right: 16px;
-            background: linear-gradient(135deg, #FF6B6B, #FF3366);
-            padding: 8px 16px;
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 700;
-            font-size: 14px;
-            box-shadow: 0 8px 25px rgba(255, 51, 102, 0.3);
-            animation: bounce 2s ease-in-out infinite;
-            z-index: 200;
-            cursor: pointer;
-            color: #fff;
-        }
-
-        .sticker-emoji {
-            font-size: 20px;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+        /* Section "Сейчас со скидкой" – пока скрыто */
+        .discount-section {
+            padding: 0 16px;
+            margin-top: 4px;
+            display: none;
         }
 
         /* Product Grid */
@@ -225,47 +196,72 @@
 
         .product-card {
             background: var(--bg-card);
-            border-radius: 20px;
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
             padding: 16px;
-            border: 1px solid var(--border-light);
-            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-            box-shadow: var(--shadow-card);
+            box-shadow: var(--shadow);
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 26px;
+            background: linear-gradient(135deg, rgba(230, 57, 70, 0.2), transparent);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .product-card:hover::before {
+            opacity: 1;
         }
 
         .product-card:hover {
             transform: translateY(-6px);
-            box-shadow: 0 12px 40px rgba(255, 107, 157, 0.2);
-            border-color: var(--primary);
+            border-color: rgba(230, 57, 70, 0.3);
+            box-shadow: 0 12px 48px rgba(230, 57, 70, 0.15);
         }
 
         .product-image {
             width: 100%;
-            height: 110px;
-            background: rgba(255, 107, 157, 0.06);
-            border-radius: 16px;
+            aspect-ratio: 1/1;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 50%; /* круглая иконка */
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 12px;
             overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.3s;
+        }
+
+        .product-card:hover .product-image {
+            border-color: var(--primary);
+            box-shadow: 0 0 30px rgba(230, 57, 70, 0.2);
         }
 
         .product-image img {
-            width: 100%;
-            height: 100%;
+            width: 80%;
+            height: 80%;
             object-fit: contain;
-            padding: 8px;
-            transition: transform 0.3s;
+            transition: transform 0.4s ease;
         }
 
         .product-card:hover .product-image img {
-            transform: scale(1.05);
+            transform: scale(1.08);
         }
 
         .product-name {
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 700;
             margin-bottom: 2px;
             color: var(--text-primary);
@@ -284,14 +280,14 @@
         }
 
         .product-stock.in-stock {
-            color: var(--success);
+            color: #4ECB71;
         }
 
         .product-price {
             display: flex;
-            align-items: center;
+            align-items: baseline;
             gap: 8px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
         .price-old {
@@ -301,23 +297,23 @@
         }
 
         .price-current {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 700;
-            color: var(--text-primary);
+            color: #FFFFFF;
         }
 
         .add-to-cart {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             background: var(--primary);
             color: white;
             border: none;
-            border-radius: 14px;
+            border-radius: 30px;
             font-weight: 600;
-            font-size: 14px;
+            font-size: 15px;
             cursor: pointer;
             transition: all 0.3s;
-            box-shadow: 0 4px 12px rgba(255, 107, 157, 0.25);
+            box-shadow: 0 4px 20px rgba(230, 57, 70, 0.3);
         }
 
         .add-to-cart:hover {
@@ -335,9 +331,9 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(255,255,255,0.85);
+            background: rgba(13, 13, 13, 0.92);
             backdrop-filter: blur(20px);
-            border-top: 1px solid var(--border-light);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
             display: flex;
             justify-content: space-around;
             padding: 8px 0 12px;
@@ -368,7 +364,7 @@
         }
 
         .nav-icon {
-            font-size: 22px;
+            font-size: 24px;
             transition: all 0.3s;
         }
 
@@ -379,9 +375,9 @@
 
         .nav-badge {
             position: absolute;
-            top: -2px;
-            right: 2px;
-            background: var(--accent);
+            top: -4px;
+            right: 0px;
+            background: var(--primary);
             color: white;
             font-size: 10px;
             font-weight: 700;
@@ -391,6 +387,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            border: 2px solid #0D0D0D;
         }
 
         /* Cart Sidebar */
@@ -401,12 +398,12 @@
             width: 100%;
             max-width: 400px;
             height: 100%;
-            background: #fff;
+            background: #0D0D0D;
             z-index: 300;
             transition: right 0.3s ease;
             display: flex;
             flex-direction: column;
-            box-shadow: -8px 0 40px rgba(0,0,0,0.05);
+            box-shadow: -8px 0 40px rgba(0, 0, 0, 0.8);
         }
 
         .cart-sidebar.open {
@@ -419,10 +416,10 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.3);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(6px);
             z-index: 299;
             display: none;
-            backdrop-filter: blur(4px);
         }
 
         .cart-overlay.active {
@@ -431,11 +428,11 @@
 
         .cart-header {
             padding: 16px;
-            border-bottom: 1px solid var(--border-light);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: #fff;
+            background: #0D0D0D;
         }
 
         .cart-header h3 {
@@ -483,26 +480,25 @@
             display: flex;
             gap: 12px;
             padding: 12px 0;
-            border-bottom: 1px solid var(--border-light);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .cart-item-image {
             width: 50px;
             height: 50px;
-            background: rgba(255, 107, 157, 0.06);
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
             flex-shrink: 0;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .cart-item-image img {
-            width: 100%;
-            height: 100%;
+            width: 70%;
+            height: 70%;
             object-fit: contain;
-            padding: 6px;
         }
 
         .cart-item-info {
@@ -528,19 +524,19 @@
         }
 
         .cart-item-actions button {
-            background: rgba(0,0,0,0.04);
+            background: rgba(255, 255, 255, 0.05);
             border: none;
             color: var(--text-primary);
             width: 28px;
             height: 28px;
-            border-radius: 8px;
+            border-radius: 50%;
             cursor: pointer;
             font-size: 16px;
             transition: all 0.3s;
         }
 
         .cart-item-actions button:hover {
-            background: rgba(255, 107, 157, 0.15);
+            background: rgba(230, 57, 70, 0.2);
         }
 
         .cart-item-qty {
@@ -556,8 +552,8 @@
 
         .cart-footer {
             padding: 16px;
-            border-top: 1px solid var(--border-light);
-            background: #fff;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            background: #0D0D0D;
         }
 
         .cart-total {
@@ -575,12 +571,12 @@
             background: var(--primary);
             color: white;
             border: none;
-            border-radius: 14px;
+            border-radius: 30px;
             font-size: 16px;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
-            box-shadow: 0 4px 16px rgba(255, 107, 157, 0.3);
+            box-shadow: 0 4px 20px rgba(230, 57, 70, 0.3);
         }
 
         .checkout-btn:hover {
@@ -588,15 +584,15 @@
             transform: scale(1.02);
         }
 
-        /* Modal */
+        /* Modal About */
         .modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.4);
-            backdrop-filter: blur(6px);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
             z-index: 400;
             display: none;
             align-items: center;
@@ -609,22 +605,23 @@
         }
 
         .modal-content {
-            background: #fff;
-            border-radius: 24px;
+            background: #141419;
+            border-radius: 28px;
             max-width: 500px;
             width: 100%;
             max-height: 80vh;
             overflow-y: auto;
             padding: 24px;
             position: relative;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
         }
 
         .modal-close {
             position: sticky;
             top: 0;
             float: right;
-            background: rgba(0,0,0,0.04);
+            background: rgba(255, 255, 255, 0.05);
             border: none;
             color: var(--text-secondary);
             width: 36px;
@@ -636,43 +633,49 @@
         }
 
         .modal-close:hover {
-            background: rgba(0,0,0,0.08);
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .about-section h2 {
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             font-size: 24px;
             color: var(--text-primary);
+            font-weight: 700;
         }
 
-        .about-card {
-            background: rgba(255, 107, 157, 0.04);
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 12px;
-            border: 1px solid var(--border-light);
-            cursor: pointer;
-            transition: all 0.3s;
+        .about-text {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #D0D0D8;
+            margin-bottom: 16px;
         }
 
-        .about-card:hover {
-            background: rgba(255, 107, 157, 0.08);
-            border-color: var(--primary);
+        .about-text strong {
+            color: #FFFFFF;
         }
 
-        .about-card h3 {
-            font-size: 16px;
-            margin-bottom: 6px;
-            color: var(--primary);
+        .about-list {
+            list-style: none;
+            padding: 0;
+            margin: 16px 0;
         }
 
-        .about-card p {
+        .about-list li {
+            padding: 6px 0;
             font-size: 14px;
-            color: var(--text-secondary);
-            line-height: 1.5;
+            color: #C0C0C8;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        /* ========== ADMIN PANEL ========== */
+        .about-list li::before {
+            content: "✦";
+            color: var(--primary);
+            font-size: 16px;
+        }
+
+        /* Admin FAB */
         .admin-fab {
             position: fixed;
             bottom: 85px;
@@ -681,35 +684,30 @@
         }
 
         .admin-fab button {
-            width: 60px;
-            height: 60px;
+            width: 56px;
+            height: 56px;
             border-radius: 50%;
             border: none;
-            background: linear-gradient(135deg, #FF6B9D, #FF9A76);
+            background: linear-gradient(135deg, #E63946, #B71C1C);
             color: white;
-            font-size: 30px;
+            font-size: 28px;
             cursor: pointer;
-            box-shadow: 0 8px 30px rgba(255, 107, 157, 0.4);
+            box-shadow: 0 8px 30px rgba(230, 57, 70, 0.4);
             transition: all 0.3s;
-            animation: pulse 2s ease-in-out infinite;
         }
 
         .admin-fab button:hover {
             transform: scale(1.1) rotate(90deg);
         }
 
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 8px 30px rgba(255, 107, 157, 0.4); }
-            50% { box-shadow: 0 8px 50px rgba(255, 154, 118, 0.6); }
-        }
-
+        /* Admin Panel (оставляем, но адаптируем под тёмную тему) */
         .admin-panel {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255,255,255,0.95);
+            background: rgba(0, 0, 0, 0.95);
             backdrop-filter: blur(10px);
             z-index: 1000;
             display: none;
@@ -724,11 +722,11 @@
         .admin-container {
             max-width: 700px;
             margin: 0 auto;
-            background: #fff;
+            background: #141419;
             border-radius: 24px;
             padding: 24px;
             position: relative;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.06);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .admin-container h2 {
@@ -747,8 +745,8 @@
         }
 
         .admin-tab {
-            background: rgba(0,0,0,0.03);
-            border: 1px solid var(--border-light);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             color: var(--text-secondary);
             padding: 10px 18px;
             border-radius: 12px;
@@ -793,8 +791,8 @@
         .admin-form-group select {
             width: 100%;
             padding: 12px 16px;
-            background: rgba(0,0,0,0.02);
-            border: 1px solid var(--border-light);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 12px;
             color: var(--text-primary);
             font-size: 14px;
@@ -805,12 +803,7 @@
         .admin-form-group textarea:focus {
             border-color: var(--primary);
             outline: none;
-            box-shadow: 0 0 0 4px rgba(255, 107, 157, 0.1);
-        }
-
-        .admin-form-group textarea {
-            min-height: 60px;
-            resize: vertical;
+            box-shadow: 0 0 0 4px rgba(230, 57, 70, 0.1);
         }
 
         .admin-btn {
@@ -823,7 +816,6 @@
             font-size: 14px;
             cursor: pointer;
             transition: all 0.3s;
-            box-shadow: 0 4px 12px rgba(255, 107, 157, 0.2);
         }
 
         .admin-btn:hover {
@@ -832,26 +824,26 @@
         }
 
         .admin-btn.danger {
-            background: #FF6B6B;
+            background: #B71C1C;
         }
 
         .admin-btn.danger:hover {
-            background: #E05555;
+            background: #880E0E;
         }
 
         .admin-btn.success {
-            background: var(--success);
+            background: #2E7D32;
         }
 
         .admin-btn.success:hover {
-            background: #3AB85C;
+            background: #1B5E20;
         }
 
         .admin-close-btn {
             position: sticky;
             top: 0;
             float: right;
-            background: rgba(0,0,0,0.04);
+            background: rgba(255, 255, 255, 0.03);
             border: none;
             color: var(--text-secondary);
             width: 40px;
@@ -863,7 +855,7 @@
         }
 
         .admin-close-btn:hover {
-            background: rgba(0,0,0,0.08);
+            background: rgba(255, 255, 255, 0.08);
             transform: rotate(90deg);
         }
 
@@ -872,10 +864,10 @@
             justify-content: space-between;
             align-items: center;
             padding: 12px 16px;
-            background: rgba(0,0,0,0.02);
+            background: rgba(255, 255, 255, 0.02);
             border-radius: 12px;
             margin-bottom: 8px;
-            border: 1px solid var(--border-light);
+            border: 1px solid rgba(255, 255, 255, 0.03);
         }
 
         .admin-product-info {
@@ -918,12 +910,12 @@
         }
 
         .admin-product-actions .delete-btn {
-            background: #FF6B6B;
+            background: #B71C1C;
             color: white;
         }
 
         .admin-product-actions .delete-btn:hover {
-            background: #E05555;
+            background: #880E0E;
         }
 
         .admin-password {
@@ -935,8 +927,8 @@
             width: 100%;
             max-width: 300px;
             padding: 14px;
-            background: rgba(0,0,0,0.02);
-            border: 1px solid var(--border-light);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 12px;
             color: var(--text-primary);
             font-size: 16px;
@@ -955,7 +947,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 14px 0;
-            border-bottom: 1px solid var(--border-light);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
             gap: 16px;
         }
 
@@ -969,8 +961,8 @@
         .setting-item select {
             flex: 1;
             padding: 10px 14px;
-            background: rgba(0,0,0,0.02);
-            border: 1px solid var(--border-light);
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 8px;
             color: var(--text-primary);
             font-size: 14px;
@@ -984,10 +976,10 @@
         .json-editor {
             width: 100%;
             min-height: 200px;
-            background: rgba(0,0,0,0.02);
-            border: 1px solid var(--border-light);
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 12px;
-            color: var(--text-primary);
+            color: #4ECB71;
             padding: 14px;
             font-family: 'Courier New', monospace;
             font-size: 13px;
@@ -1013,14 +1005,14 @@
             bottom: 100px;
             left: 50%;
             transform: translateX(-50%);
-            background: var(--success);
+            background: #2E7D32;
             color: white;
             padding: 12px 24px;
-            border-radius: 16px;
+            border-radius: 30px;
             font-weight: 600;
             z-index: 500;
             animation: slideUp 0.3s ease;
-            box-shadow: 0 8px 30px rgba(78, 203, 113, 0.3);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
         }
 
         @keyframes slideUp {
@@ -1062,7 +1054,7 @@
         }
 
         ::-webkit-scrollbar-track {
-            background: #f5f5f5;
+            background: #0D0D0D;
         }
 
         ::-webkit-scrollbar-thumb {
@@ -1076,7 +1068,7 @@
     <header class="header">
         <div class="header-content">
             <div class="logo">
-                <span class="logo-icon">☁️</span>
+                <div class="logo-icon">💨</div>
                 <span class="logo-text">Cloud_Ost</span>
             </div>
             <div class="header-actions">
@@ -1086,29 +1078,26 @@
                 </button>
             </div>
         </div>
-        <div class="promo-banner">
-            <span class="promo-text" id="promoTextDisplay">🔥 Скидка 25% на первую покупку! Промокод: CLOUD25 | 🚀 Доставка по городу за 1 час</span>
+        <!-- Баннер скидок скрыт -->
+        <div class="promo-banner" id="promoBanner" style="display: none;">
+            <span class="promo-text" id="promoTextDisplay">Скидки</span>
         </div>
     </header>
 
-    <!-- Sticker Notification -->
-    <div class="sticker-notification" onclick="alert('🎉 Новинки уже в каталоге!')">
-        <span class="sticker-emoji">🌟</span>
-        <span>Новинки!</span>
-    </div>
-
-    <!-- Categories -->
+    <!-- Categories: только Все и Жидкости -->
     <div class="categories">
         <button class="category active" data-category="all">Все</button>
         <button class="category" data-category="liquids">💧 Жидкости</button>
-        <button class="category" data-category="accessories">🔧 Аксессуары</button>
-        <button class="category" data-category="sale">🔥 Скидки</button>
+        <!-- Остальные категории скрыты или закомментированы -->
     </div>
+
+    <!-- Секция "Сейчас со скидкой" (скрыта) -->
+    <div class="discount-section" id="discountSection" style="display: none;"></div>
 
     <!-- Product Grid -->
     <div class="product-grid" id="productGrid"></div>
 
-    <!-- Bottom Navigation -->
+    <!-- Bottom Navigation (только каталог, корзина, о нас) -->
     <nav class="bottom-nav">
         <button class="nav-item active" data-page="catalog">
             <span class="nav-icon">📋</span>
@@ -1118,14 +1107,6 @@
             <span class="nav-icon">🛒</span>
             <span class="nav-label">Корзина</span>
             <span class="nav-badge" id="navCartBadge">0</span>
-        </button>
-        <button class="nav-item" data-page="referral" onclick="alert('👥 Приглашай друзей и получай бонусы!')">
-            <span class="nav-icon">👥</span>
-            <span class="nav-label">Рефералка</span>
-        </button>
-        <button class="nav-item" data-page="orders" onclick="alert('📦 История ваших заказов')">
-            <span class="nav-icon">📦</span>
-            <span class="nav-label">Заказы</span>
         </button>
         <button class="nav-item" data-page="about" id="aboutBtn">
             <span class="nav-icon">ℹ️</span>
@@ -1162,51 +1143,34 @@
             <button class="modal-close" id="closeAbout">✕</button>
             <div class="about-section">
                 <h2>☁️ О магазине Cloud_Ost</h2>
-                <div class="about-content">
-                    <div class="about-card" onclick="alert('📖 Скоро здесь будет информация о нас!')">
-                        <h3>🌬️ Кто мы</h3>
-                        <p>Cloud_Ost - это современный вейп-шоп с душой. Мы предлагаем только качественные жидкости ElfQ и лучшие аксессуары для парения.</p>
-                    </div>
-                    <div class="about-card" onclick="alert('🚚 Информация о доставке скоро появится!')">
-                        <h3>🚚 Доставка</h3>
-                        <p>Быстрая доставка по всей Чехии. Отправляем в день заказа! Курьерская доставка по городу – 1 час.</p>
-                    </div>
-                    <div class="about-card" onclick="alert('💳 Способы оплаты скоро появятся!')">
-                        <h3>💳 Оплата</h3>
-                        <p>Принимаем: карты, QR-коды, криптовалюту. Все способы удобны и безопасны.</p>
-                    </div>
-                    <div class="about-card" onclick="alert('🔄 Условия возврата скоро появятся!')">
-                        <h3>🔄 Возврат</h3>
-                        <p>Гарантия качества 30 дней. Обмен и возврат без проблем - наша политика.</p>
-                    </div>
-                    <div class="about-card" onclick="alert('🎯 Акции и скидки скоро появятся!')">
-                        <h3>🎯 Акции</h3>
-                        <p>Постоянные скидки для постоянных клиентов. Следите за акциями в нашем канале!</p>
-                    </div>
-                    <div class="about-card" onclick="alert('❓ FAQ скоро появится!')">
-                        <h3>❓ Часто задаваемые вопросы</h3>
-                        <p>Все ответы на популярные вопросы собраны в удобном разделе. Пишите в поддержку - ответим моментально!</p>
-                    </div>
-                    <div class="about-card" onclick="alert('⭐ Отзывы клиентов скоро появятся!')">
-                        <h3>⭐ Отзывы</h3>
-                        <p>Наши клиенты нас любят! 4.9⭐ на основе 500+ отзывов. Присоединяйтесь!</p>
-                    </div>
+                <div class="about-text">
+                    <p>Мы — молодой и быстро развивающийся вейп-шоп, созданный людьми, которые действительно разбираются в вейпинге. Наша цель — предложить качественную продукцию, честные цены и сервис, к которому хочется возвращаться.</p>
+                    <br>
+                    <p>Мы тщательно отбираем ассортимент, работаем только с проверенными поставщиками и следим за тем, чтобы каждый товар соответствовал высоким стандартам качества. Для нас важно, чтобы каждый клиент получил именно то, что ему нужно, независимо от того, только ли он знакомится с миром вейпинга или уже имеет большой опыт.</p>
+                    <br>
+                    <p><strong>Почему выбирают нас:</strong></p>
+                    <ul class="about-list">
+                        <li>Только оригинальная продукция.</li>
+                        <li>Актуальные новинки и популярные бренды.</li>
+                        <li>Быстрая обработка и отправка заказов.</li>
+                        <li>Честные цены без скрытых наценок.</li>
+                        <li>Поддержка и помощь с выбором.</li>
+                    </ul>
+                    <p style="margin-top: 12px; color: #B0B0B8;">Мы ценим доверие каждого клиента и стремимся сделать покупки максимально удобными, выгодными и приятными. Спасибо, что выбираете нас — мы только начинаем свой путь и будем рады стать вашим любимым вейп-шопом!</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ========== ADMIN PANEL BUTTON ========== -->
+    <!-- Admin FAB -->
     <div class="admin-fab">
         <button id="adminToggle" title="Панель управления">⚙️</button>
     </div>
 
-    <!-- ========== ADMIN PANEL ========== -->
+    <!-- Admin Panel -->
     <div class="admin-panel" id="adminPanel">
         <div class="admin-container">
             <button class="admin-close-btn" id="adminClose">✕</button>
-            
-            <!-- Login -->
             <div id="adminLogin">
                 <div class="admin-password">
                     <h2>🔐 Панель управления</h2>
@@ -1216,24 +1180,17 @@
                     <div class="hint">Пароль по умолчанию: admin123</div>
                 </div>
             </div>
-            
-            <!-- Panel -->
             <div id="adminContent" style="display: none;">
                 <h2>⚙️ Управление магазином</h2>
-                
                 <div class="admin-tabs">
                     <button class="admin-tab active" data-tab="products">📦 Товары</button>
                     <button class="admin-tab" data-tab="add">➕ Добавить</button>
                     <button class="admin-tab" data-tab="settings">⚙️ Настройки</button>
                     <button class="admin-tab" data-tab="backup">💾 Backup</button>
                 </div>
-                
-                <!-- Products -->
                 <div class="admin-tab-content active" id="tab-products">
                     <div id="adminProductList"></div>
                 </div>
-                
-                <!-- Add -->
                 <div class="admin-tab-content" id="tab-add">
                     <h3 style="margin-bottom: 16px;">➕ Добавить товар</h3>
                     <div class="admin-form-group">
@@ -1260,21 +1217,18 @@
                         <label>Категория</label>
                         <select id="newCategory">
                             <option value="liquids">💧 Жидкости</option>
-                            <option value="accessories">🔧 Аксессуары</option>
                         </select>
                     </div>
                     <div class="admin-form-group">
-                        <label>Ссылка на 3D-иконку (с thiings.co)</label>
-                        <input type="text" id="newIconUrl" placeholder="https://example.com/peach.png">
+                        <label>Ссылка на 3D-иконку (png, webp)</label>
+                        <input type="text" id="newIconUrl" placeholder="https://img.icons8.com/3d-fluency/96/apple.png">
                     </div>
                     <div class="admin-form-group">
-                        <label>Бейдж (если нужно, например ⭐ NEW)</label>
+                        <label>Бейдж (если нужно)</label>
                         <input type="text" id="newBadge" placeholder="⭐ NEW">
                     </div>
                     <button class="admin-btn success" onclick="addProduct()" style="width: 100%;">➕ Добавить товар</button>
                 </div>
-                
-                <!-- Settings -->
                 <div class="admin-tab-content" id="tab-settings">
                     <h3 style="margin-bottom: 16px;">⚙️ Настройки</h3>
                     <div class="setting-item">
@@ -1283,11 +1237,7 @@
                     </div>
                     <div class="setting-item">
                         <label>Промо-текст</label>
-                        <input type="text" id="promoText" value="🔥 Скидка 25% на первую покупку! Промокод: CLOUD25 | 🚀 Доставка по городу за 1 час">
-                    </div>
-                    <div class="setting-item">
-                        <label>Промокод</label>
-                        <input type="text" id="promoCode" value="CLOUD25">
+                        <input type="text" id="promoText" value="🔥 Скидка 25% на первую покупку! Промокод: CLOUD25">
                     </div>
                     <div class="setting-item">
                         <label>Показывать скидки</label>
@@ -1298,8 +1248,6 @@
                     </div>
                     <button class="admin-btn" onclick="saveSettings()" style="width: 100%; margin-top: 16px;">💾 Сохранить настройки</button>
                 </div>
-                
-                <!-- Backup -->
                 <div class="admin-tab-content" id="tab-backup">
                     <h3 style="margin-bottom: 16px;">💾 Бэкап и восстановление</h3>
                     <div class="admin-buttons-group">
@@ -1319,34 +1267,48 @@
     </div>
 
     <script>
-        // ========== INITIAL PRODUCTS ==========
+        // ========== ТОВАРЫ (только жидкости, один тестовый Apple Peach) ==========
         let products = [
-            { id: 1, name: 'ElfQ Liquid', flavor: 'Манго-Маракуйя', price: 450, oldPrice: 600, stock: 12, category: 'liquids', iconUrl: 'https://placehold.co/100x100/FFE8F0/FF6B9D?text=🥭', badge: '🔥 -25%' },
-            { id: 2, name: 'ElfQ Liquid', flavor: 'Мятный Лед', price: 450, oldPrice: 600, stock: 8, category: 'liquids', iconUrl: 'https://placehold.co/100x100/FFE8F0/FF6B9D?text=🌿', badge: '🔥 -25%' },
-            { id: 3, name: 'ElfQ Liquid', flavor: 'Клубника-Банан', price: 450, oldPrice: 600, stock: 15, category: 'liquids', iconUrl: 'https://placehold.co/100x100/FFE8F0/FF6B9D?text=🍓', badge: '🔥 -25%' },
-            { id: 4, name: 'ElfQ Liquid', flavor: 'Виноград-Лимон', price: 450, oldPrice: 600, stock: 6, category: 'liquids', iconUrl: 'https://placehold.co/100x100/FFE8F0/FF6B9D?text=🍇', badge: '🔥 -25%' },
-            { id: 5, name: 'ElfQ Liquid', flavor: 'Карамель-Ваниль', price: 450, oldPrice: 600, stock: 10, category: 'liquids', iconUrl: 'https://placehold.co/100x100/FFE8F0/FF6B9D?text=🍮', badge: '🔥 -25%' },
-            { id: 6, name: 'ElfQ Liquid', flavor: 'Арбуз-Мята', price: 450, oldPrice: 600, stock: 9, category: 'liquids', iconUrl: 'https://placehold.co/100x100/FFE8F0/FF6B9D?text=🍉', badge: '🔥 -25%' },
-            { id: 7, name: 'ElfQ Liquid', flavor: 'Персик-Кокос', price: 450, oldPrice: 600, stock: 20, category: 'liquids', iconUrl: 'https://placehold.co/100x100/FFE8F0/FF6B9D?text=🍑', badge: '🔥 -25%' },
-            { id: 8, name: 'ElfQ Liquid', flavor: 'Яблоко-Корица', price: 450, oldPrice: 600, stock: 5, category: 'liquids', iconUrl: 'https://placehold.co/100x100/FFE8F0/FF6B9D?text=🍎', badge: '🔥 -25%' },
-            { id: 9, name: 'ElfQ Liquid', flavor: 'Ананас-Маракуйя', price: 450, oldPrice: 600, stock: 14, category: 'liquids', iconUrl: 'https://placehold.co/100x100/FFE8F0/FF6B9D?text=🍍', badge: '🔥 -25%' },
-            { id: 10, name: 'ElfQ Liquid', flavor: 'Черника-Малина', price: 450, oldPrice: 600, stock: 7, category: 'liquids', iconUrl: 'https://placehold.co/100x100/FFE8F0/FF6B9D?text=🫐', badge: '🔥 -25%' },
-            { id: 11, name: 'ElfQ Liquid', flavor: 'Лимон-Лайм', price: 450, oldPrice: 600, stock: 11, category: 'liquids', iconUrl: 'https://placehold.co/100x100/FFE8F0/FF6B9D?text=🍋', badge: '🔥 -25%' },
-            { id: 12, name: 'ElfQ Liquid', flavor: 'Вишня-Кола', price: 450, oldPrice: 600, stock: 3, category: 'liquids', iconUrl: 'https://placehold.co/100x100/FFE8F0/FF6B9D?text=🍒', badge: '🔥 -25%' },
-            { id: 13, name: 'ElfQ Liquid', flavor: 'Мандарин-Грейпфрут', price: 450, oldPrice: 600, stock: 8, category: 'liquids', iconUrl: 'https://placehold.co/100x100/FFE8F0/FF6B9D?text=🍊', badge: '🔥 -25%' },
-            { id: 14, name: 'ElfQ Liquid', flavor: 'Дыня-Клубника', price: 450, oldPrice: 600, stock: 6, category: 'liquids', iconUrl: 'https://placehold.co/100x100/FFE8F0/FF6B9D?text=🍈', badge: '🔥 -25%' },
-            { id: 15, name: 'ElfQ Liquid', flavor: 'Кола-Лимон', price: 450, oldPrice: 600, stock: 10, category: 'liquids', iconUrl: 'https://placehold.co/100x100/FFE8F0/FF6B9D?text=🥤', badge: '🔥 -25%' },
-            { id: 16, name: 'ElfQ Liquid Special', flavor: 'Мультифрукт', price: 550, oldPrice: 700, stock: 4, category: 'liquids', iconUrl: 'https://placehold.co/100x100/FFE8F0/FF6B9D?text=🌈', badge: '⭐ NEW' },
-            { id: 17, name: 'Аксессуар - Испаритель', flavor: 'Для Pod систем', price: 299, oldPrice: 399, stock: 20, category: 'accessories', iconUrl: 'https://placehold.co/100x100/FFE8F0/FF6B9D?text=⚡', badge: '💫 -25%' },
-            { id: 18, name: 'Аксессуар - Футляр', flavor: 'Для хранения', price: 199, oldPrice: 299, stock: 15, category: 'accessories', iconUrl: 'https://placehold.co/100x100/FFE8F0/FF6B9D?text=📦', badge: '🎁 -33%' },
-            { id: 19, name: 'Аксессуар - Зарядка', flavor: 'Type-C быстрая', price: 349, oldPrice: 499, stock: 10, category: 'accessories', iconUrl: 'https://placehold.co/100x100/FFE8F0/FF6B9D?text=🔌', badge: '⚡ -30%' },
-            { id: 20, name: 'Аксессуар - Сумка', flavor: 'Для вейпа', price: 449, oldPrice: 599, stock: 8, category: 'accessories', iconUrl: 'https://placehold.co/100x100/FFE8F0/FF6B9D?text=👛', badge: '👜 -25%' }
+            {
+                id: 1,
+                name: 'ElfQ Liquid',
+                flavor: 'Apple Peach',
+                price: 450,
+                oldPrice: 0,        // без скидки пока
+                stock: 10,
+                category: 'liquids',
+                iconUrl: 'https://img.icons8.com/3d-fluency/96/apple.png', // яблоко
+                badge: ''
+            },
+            // можно добавить еще несколько для красоты, но пока оставим один
+            {
+                id: 2,
+                name: 'ElfQ Liquid',
+                flavor: 'Mango Passion',
+                price: 450,
+                oldPrice: 0,
+                stock: 8,
+                category: 'liquids',
+                iconUrl: 'https://img.icons8.com/3d-fluency/96/mango.png',
+                badge: ''
+            },
+            {
+                id: 3,
+                name: 'ElfQ Liquid',
+                flavor: 'Strawberry Kiwi',
+                price: 450,
+                oldPrice: 0,
+                stock: 12,
+                category: 'liquids',
+                iconUrl: 'https://img.icons8.com/3d-fluency/96/strawberry.png',
+                badge: ''
+            }
         ];
 
         let cart = [];
-        let showDiscounts = false; // по умолчанию скидки скрыты
+        let showDiscounts = false; // по умолчанию скидки выключены
 
-        // ========== ADMIN ==========
+        // ========== ADMIN CREDENTIALS ==========
         const ADMIN_PASSWORD = 'admin123';
 
         // ========== TOAST ==========
@@ -1360,10 +1322,11 @@
             setTimeout(() => toast.remove(), 2500);
         }
 
-        // ========== PRODUCTS RENDER ==========
+        // ========== RENDER PRODUCTS ==========
         function renderProducts(category = 'all') {
             const grid = document.getElementById('productGrid');
             let filtered = category === 'all' ? products : products.filter(p => p.category === category);
+            // Если категория "sale" - но мы её не используем пока
             if (category === 'sale') {
                 filtered = products.filter(p => p.oldPrice > p.price && showDiscounts);
             }
@@ -1376,10 +1339,9 @@
             const isOnSale = product.oldPrice && product.oldPrice > product.price && showDiscounts;
             const iconHtml = product.iconUrl 
                 ? `<img src="${product.iconUrl}" alt="${product.name}" loading="lazy">` 
-                : `<span style="font-size:48px;">${product.emoji || '💧'}</span>`;
+                : `<span style="font-size:48px;">💧</span>`;
             return `
                 <div class="product-card" data-id="${product.id}">
-                    ${isOnSale && product.badge ? `<div class="product-badge sale">${product.badge}</div>` : ''}
                     <div class="product-image">${iconHtml}</div>
                     <div class="product-name">${product.name}</div>
                     <div class="product-flavor">${product.flavor}</div>
@@ -1397,7 +1359,7 @@
             `;
         }
 
-        // ========== CART FUNCTIONS ==========
+        // ========== CART ==========
         function addToCart(productId) {
             const product = products.find(p => p.id === productId);
             if (!product) return;
@@ -1411,7 +1373,15 @@
                 }
             } else {
                 if (product.stock > 0) {
-                    cart.push({ id: product.id, name: product.name, flavor: product.flavor, price: product.price, quantity: 1, iconUrl: product.iconUrl, maxStock: product.stock });
+                    cart.push({
+                        id: product.id,
+                        name: product.name,
+                        flavor: product.flavor,
+                        price: product.price,
+                        quantity: 1,
+                        iconUrl: product.iconUrl,
+                        maxStock: product.stock
+                    });
                 } else {
                     showToast('❌ Товар временно недоступен');
                     return;
@@ -1487,6 +1457,25 @@
             document.getElementById('cartOverlay').classList.remove('active');
         }
 
+        // ========== CHECKOUT ==========
+        function checkout() {
+            if (cart.length === 0) {
+                showToast('🛒 Корзина пуста!');
+                return;
+            }
+            const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            const order = cart.map(item => `${item.name} (${item.flavor}) × ${item.quantity} = ${item.price * item.quantity} Kč`).join('\n');
+            const tg = window.Telegram?.WebApp;
+            const user = tg?.initDataUnsafe?.user?.username || 'Гость';
+            alert(`✅ Заказ оформлен!\n\n${order}\n\n💰 Итого: ${total} Kč\n\n👤 Клиент: @${user}\n\n📞 Скоро с вами свяжется менеджер.`);
+            cart = [];
+            updateCartUI();
+            closeCart();
+            renderProducts(document.querySelector('.category.active')?.dataset?.category || 'all');
+            saveData();
+            showToast('🎉 Заказ успешно оформлен!');
+        }
+
         // ========== ADMIN FUNCTIONS ==========
         function adminLogin() {
             const input = document.getElementById('adminPassword');
@@ -1531,25 +1520,25 @@
             const stock = parseInt(document.getElementById('newStock').value);
             const category = document.getElementById('newCategory').value;
             const iconUrl = document.getElementById('newIconUrl').value.trim();
-            const badge = document.getElementById('newBadge').value.trim() || (oldPrice > price ? `🔥 -${Math.round((1 - price/oldPrice)*100)}%` : '');
-            
+            const badge = document.getElementById('newBadge').value.trim() || '';
+
             if (!name || !flavor || !price || !stock) {
                 alert('❌ Заполните все обязательные поля!');
                 return;
             }
-            
+
             products.push({
                 id: Date.now(),
                 name,
                 flavor,
                 price,
-                oldPrice: oldPrice || price + 150,
+                oldPrice: oldPrice || 0,
                 stock,
                 category,
-                iconUrl: iconUrl || 'https://placehold.co/100x100/FFE8F0/FF6B9D?text=💧',
+                iconUrl: iconUrl || 'https://img.icons8.com/3d-fluency/96/watermelon.png',
                 badge
             });
-            
+
             document.getElementById('newName').value = '';
             document.getElementById('newFlavor').value = '';
             document.getElementById('newPrice').value = '';
@@ -1557,7 +1546,7 @@
             document.getElementById('newStock').value = '';
             document.getElementById('newIconUrl').value = '';
             document.getElementById('newBadge').value = '';
-            
+
             renderAdminProducts();
             renderProducts(document.querySelector('.category.active')?.dataset?.category || 'all');
             saveData();
@@ -1574,9 +1563,9 @@
             if (newPrice === null) return;
             const newStock = prompt('Наличие (шт):', p.stock);
             if (newStock === null) return;
-            const newIconUrl = prompt('Ссылка на иконку (или оставьте пустым):', p.iconUrl || '');
+            const newIconUrl = prompt('Ссылка на иконку:', p.iconUrl || '');
             if (newIconUrl === null) return;
-            
+
             products[index] = { ...p, name: newName, flavor: newFlavor, price: parseInt(newPrice), stock: parseInt(newStock), iconUrl: newIconUrl || p.iconUrl };
             renderAdminProducts();
             renderProducts(document.querySelector('.category.active')?.dataset?.category || 'all');
@@ -1598,12 +1587,10 @@
             const settings = {
                 shopName: document.getElementById('shopName').value,
                 promoText: document.getElementById('promoText').value,
-                promoCode: document.getElementById('promoCode').value,
                 showDiscounts: document.getElementById('showDiscounts').value === 'true'
             };
             localStorage.setItem('cloud_ost_settings', JSON.stringify(settings));
             document.querySelector('.logo-text').textContent = settings.shopName;
-            document.getElementById('promoTextDisplay').textContent = settings.promoText;
             showDiscounts = settings.showDiscounts;
             renderProducts(document.querySelector('.category.active')?.dataset?.category || 'all');
             showToast('✅ Настройки сохранены!');
@@ -1614,14 +1601,11 @@
             if (saved) {
                 const settings = JSON.parse(saved);
                 document.getElementById('shopName').value = settings.shopName || 'Cloud_Ost';
-                document.getElementById('promoText').value = settings.promoText || '🔥 Скидка 25% на первую покупку! Промокод: CLOUD25 | 🚀 Доставка по городу за 1 час';
-                document.getElementById('promoCode').value = settings.promoCode || 'CLOUD25';
+                document.getElementById('promoText').value = settings.promoText || '🔥 Скидка 25% на первую покупку! Промокод: CLOUD25';
                 document.getElementById('showDiscounts').value = settings.showDiscounts ? 'true' : 'false';
                 document.querySelector('.logo-text').textContent = settings.shopName || 'Cloud_Ost';
-                document.getElementById('promoTextDisplay').textContent = settings.promoText || '🔥 Скидка 25% на первую покупку! Промокод: CLOUD25 | 🚀 Доставка по городу за 1 час';
                 showDiscounts = settings.showDiscounts || false;
             } else {
-                // установка по умолчанию
                 document.getElementById('showDiscounts').value = 'false';
                 showDiscounts = false;
             }
@@ -1629,11 +1613,11 @@
 
         function exportData() {
             const data = { products: products, settings: JSON.parse(localStorage.getItem('cloud_ost_settings') || '{}') };
-            const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `cloud_ost_backup_${new Date().toISOString().slice(0,10)}.json`;
+            a.download = `cloud_ost_backup_${new Date().toISOString().slice(0, 10)}.json`;
             a.click();
             URL.revokeObjectURL(url);
             showToast('📤 Данные экспортированы!');
@@ -1653,7 +1637,7 @@
                         saveData();
                         showToast('✅ Данные импортированы!');
                     }
-                } catch(err) {
+                } catch (err) {
                     alert('❌ Ошибка импорта: ' + err.message);
                 }
             };
@@ -1672,7 +1656,7 @@
                     saveData();
                     showToast('✅ JSON применен!');
                 }
-            } catch(err) {
+            } catch (err) {
                 alert('❌ Ошибка JSON: ' + err.message);
             }
         }
@@ -1699,33 +1683,14 @@
             if (savedProducts) {
                 try {
                     products = JSON.parse(savedProducts);
-                } catch(e) {}
+                } catch (e) { }
             }
             const savedCart = localStorage.getItem('cloud_ost_cart');
             if (savedCart) {
                 try {
                     cart = JSON.parse(savedCart);
-                } catch(e) {}
+                } catch (e) { }
             }
-        }
-
-        // ========== CHECKOUT ==========
-        function checkout() {
-            if (cart.length === 0) {
-                showToast('🛒 Корзина пуста!');
-                return;
-            }
-            const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-            const order = cart.map(item => `${item.name} (${item.flavor}) × ${item.quantity} = ${item.price * item.quantity} Kč`).join('\n');
-            const tg = window.Telegram?.WebApp;
-            const user = tg?.initDataUnsafe?.user?.username || 'Гость';
-            alert(`✅ Заказ оформлен!\n\n${order}\n\n💰 Итого: ${total} Kč\n\n👤 Клиент: @${user}\n\n📞 Скоро с вами свяжется менеджер.`);
-            cart = [];
-            updateCartUI();
-            closeCart();
-            renderProducts(document.querySelector('.category.active')?.dataset?.category || 'all');
-            saveData();
-            showToast('🎉 Заказ успешно оформлен!');
         }
 
         // ========== INIT ==========
@@ -1735,7 +1700,7 @@
             renderProducts('all');
             updateCartUI();
 
-            // Categories
+            // Категории
             document.querySelectorAll('.category').forEach(btn => {
                 btn.addEventListener('click', function() {
                     document.querySelectorAll('.category').forEach(b => b.classList.remove('active'));
@@ -1744,7 +1709,7 @@
                 });
             });
 
-            // Navigation
+            // Навигация
             document.querySelectorAll('.nav-item').forEach(btn => {
                 btn.addEventListener('click', function() {
                     document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
@@ -1753,13 +1718,13 @@
                 });
             });
 
-            // Cart
+            // Корзина
             document.getElementById('cartBtn').addEventListener('click', toggleCart);
             document.getElementById('closeCart').addEventListener('click', closeCart);
             document.getElementById('cartOverlay').addEventListener('click', closeCart);
             document.getElementById('checkoutBtn').addEventListener('click', checkout);
 
-            // About
+            // О нас
             document.getElementById('aboutBtn').addEventListener('click', () => {
                 document.getElementById('aboutModal').classList.add('active');
             });
@@ -1770,7 +1735,7 @@
                 if (e.target === this) this.classList.remove('active');
             });
 
-            // Admin
+            // Админка
             document.getElementById('adminToggle').addEventListener('click', () => {
                 document.getElementById('adminPanel').classList.toggle('active');
                 document.getElementById('adminPassword').value = '';
@@ -1787,7 +1752,7 @@
                 if (e.target === this) this.classList.remove('active');
             });
 
-            // Admin tabs
+            // Табы админки
             document.querySelectorAll('.admin-tab').forEach(tab => {
                 tab.addEventListener('click', function() {
                     document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
@@ -1797,7 +1762,7 @@
                 });
             });
 
-            // Keyboard shortcuts
+            // Escape
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') {
                     document.getElementById('adminPanel').classList.remove('active');
