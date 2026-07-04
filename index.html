@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title id="pageTitle">Cloud_Ost — Вейп Шоп</title>
+    <title>Cloud_Ost — Вейп Шоп</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * { margin:0; padding:0; box-sizing:border-box; }
@@ -15,15 +15,12 @@
             --bg-card: rgba(20,20,25,0.85);
             --bg-modal: #141419;
             --bg-nav: rgba(13,13,13,0.92);
-            --bg-input: rgba(255,255,255,0.03);
             --border-color: rgba(255,255,255,0.06);
             --text-primary: #FFFFFF;
             --text-secondary: #B0B0B8;
             --text-muted: #7A7A8A;
             --shadow: 0 8px 32px rgba(0,0,0,0.6);
             --toast-bg: #2E7D32;
-            --scrollbar-track: #0D0D0D;
-            --scrollbar-thumb: var(--primary);
         }
         [data-theme="light"] {
             --bg-body: radial-gradient(ellipse at top, #FFF0F0, #FFFFFF 70%);
@@ -31,13 +28,11 @@
             --bg-card: rgba(255,255,255,0.95);
             --bg-modal: #FFFFFF;
             --bg-nav: rgba(255,255,255,0.95);
-            --bg-input: rgba(0,0,0,0.02);
             --border-color: rgba(0,0,0,0.08);
             --text-primary: #1A1A2E;
             --text-secondary: #4A4A5A;
             --text-muted: #8888A0;
             --shadow: 0 8px 32px rgba(0,0,0,0.08);
-            --scrollbar-track: #F0F0F0;
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -69,7 +64,6 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            cursor: pointer;
             user-select: none;
         }
         .logo-icon {
@@ -82,7 +76,6 @@
             justify-content: center;
             font-size: 24px;
             border: 1px solid rgba(255,255,255,0.15);
-            pointer-events: none;
         }
         .logo-text {
             font-size: 24px;
@@ -90,7 +83,6 @@
             background: linear-gradient(135deg, #FFFFFF, #FFB3B3);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            pointer-events: none;
         }
         [data-theme="light"] .logo-text {
             background: linear-gradient(135deg, #1A1A2E, #E63946);
@@ -101,7 +93,6 @@
             display: flex;
             gap: 8px;
             align-items: center;
-            flex-wrap: wrap;
         }
         .header-actions button {
             background: rgba(255,255,255,0.08);
@@ -122,9 +113,6 @@
         .header-actions button:hover {
             background: rgba(255,255,255,0.18);
             transform: scale(1.05);
-        }
-        [data-theme="light"] .header-actions button:hover {
-            background: rgba(0,0,0,0.1);
         }
         .cart-count {
             position: absolute;
@@ -171,20 +159,6 @@
             color: #1A1A2E;
         }
 
-        .promo-banner {
-            margin-top: 10px;
-            background: rgba(255,255,255,0.08);
-            padding: 6px 16px;
-            border-radius: 30px;
-            text-align: center;
-            font-size: 13px;
-            font-weight: 500;
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            display: none;
-        }
-        .promo-banner.show { display: block; }
         .categories {
             display: flex;
             gap: 10px;
@@ -217,6 +191,7 @@
             box-shadow: 0 4px 20px rgba(230,57,70,0.4);
         }
         .category:hover { transform: scale(1.05); }
+
         .product-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -268,16 +243,16 @@
         .product-name { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
         .product-flavor { font-size: 13px; color: var(--text-secondary); margin-bottom: 2px; }
         .product-desc { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; line-height: 1.3; }
-        .product-stock { font-size: 12px; color: var(--text-secondary); margin-bottom: 8px; }
+        .product-stock { font-size: 12px; margin-bottom: 8px; }
         .product-stock.in-stock { color: #4ECB71; }
         .product-stock.low-stock { color: #FFD93D; }
+        .product-stock.out-of-stock { color: #FF6B6B; }
         .product-price {
             display: flex;
             align-items: baseline;
             gap: 8px;
             margin-bottom: 12px;
         }
-        .price-old { font-size: 13px; color: var(--text-secondary); text-decoration: line-through; }
         .price-current { font-size: 22px; font-weight: 700; }
         .add-to-cart {
             width: 100%;
@@ -297,6 +272,13 @@
             transform: scale(1.02);
         }
         .add-to-cart:active { transform: scale(0.95); }
+        .add-to-cart:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -345,6 +327,7 @@
             justify-content: center;
             border: 2px solid var(--bg-nav);
         }
+
         .cart-sidebar {
             position: fixed;
             top: 0;
@@ -474,6 +457,7 @@
             background: var(--primary-dark);
             transform: scale(1.02);
         }
+
         .modal {
             position: fixed;
             top: 0;
@@ -544,258 +528,6 @@
         }
         .about-list li::before { content: "✦"; color: var(--primary); font-size: 16px; }
 
-        .admin-panel {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            display: none;
-            overflow-y: auto;
-            padding: 20px;
-        }
-        .admin-panel.active { display: block; }
-        .admin-container {
-            max-width: 700px;
-            margin: 0 auto;
-            background: var(--bg-modal);
-            border-radius: 24px;
-            padding: 24px;
-            position: relative;
-            border: 1px solid var(--border-color);
-        }
-        .admin-container h2 {
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--text-primary);
-        }
-        .admin-tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        .admin-tab {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            padding: 10px 18px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-        .admin-tab.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-        .admin-tab:hover { transform: scale(1.05); }
-        .admin-tab-content { display: none; }
-        .admin-tab-content.active { display: block; }
-        .admin-form-group {
-            margin-bottom: 16px;
-        }
-        .admin-form-group label {
-            display: block;
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin-bottom: 6px;
-            font-weight: 500;
-        }
-        .admin-form-group input,
-        .admin-form-group textarea,
-        .admin-form-group select {
-            width: 100%;
-            padding: 12px 16px;
-            background: var(--bg-input);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            color: var(--text-primary);
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-        .admin-form-group input:focus,
-        .admin-form-group textarea:focus {
-            border-color: var(--primary);
-            outline: none;
-            box-shadow: 0 0 0 4px rgba(230,57,70,0.1);
-        }
-        .admin-btn {
-            padding: 12px 24px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .admin-btn:hover {
-            background: var(--primary-dark);
-            transform: scale(1.02);
-        }
-        .admin-btn.danger { background: #B71C1C; }
-        .admin-btn.danger:hover { background: #880E0E; }
-        .admin-btn.success { background: #2E7D32; }
-        .admin-btn.success:hover { background: #1B5E20; }
-        .admin-btn.small { padding: 6px 12px; font-size: 12px; }
-        .admin-close-btn {
-            position: sticky;
-            top: 0;
-            float: right;
-            background: rgba(255,255,255,0.03);
-            border: none;
-            color: var(--text-secondary);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            font-size: 24px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .admin-close-btn:hover {
-            background: rgba(255,255,255,0.08);
-            transform: rotate(90deg);
-        }
-        .admin-product-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 16px;
-            background: var(--bg-input);
-            border-radius: 12px;
-            margin-bottom: 8px;
-            border: 1px solid var(--border-color);
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        .admin-product-info { flex: 1; min-width: 150px; }
-        .admin-product-name {
-            font-weight: 600;
-            font-size: 14px;
-            color: var(--text-primary);
-        }
-        .admin-product-flavor {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-        .admin-product-actions {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
-        .admin-product-actions button {
-            padding: 6px 12px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        .admin-product-actions .edit-btn {
-            background: var(--primary);
-            color: white;
-        }
-        .admin-product-actions .edit-btn:hover {
-            background: var(--primary-dark);
-        }
-        .admin-product-actions .delete-btn {
-            background: #B71C1C;
-            color: white;
-        }
-        .admin-product-actions .delete-btn:hover {
-            background: #880E0E;
-        }
-        .admin-product-actions .move-btn {
-            background: #FF8F00;
-            color: white;
-        }
-        .admin-product-actions .move-btn:hover {
-            background: #E67E00;
-        }
-        .admin-password {
-            text-align: center;
-            padding: 40px 20px;
-        }
-        .admin-password input {
-            width: 100%;
-            max-width: 300px;
-            padding: 14px;
-            background: var(--bg-input);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            color: var(--text-primary);
-            font-size: 16px;
-            text-align: center;
-            margin: 16px 0;
-        }
-        .admin-password .hint {
-            color: var(--text-secondary);
-            font-size: 13px;
-            margin-top: 12px;
-        }
-        .setting-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 0;
-            border-bottom: 1px solid var(--border-color);
-            gap: 16px;
-        }
-        .setting-item label {
-            font-weight: 500;
-            min-width: 140px;
-            color: var(--text-primary);
-        }
-        .setting-item input,
-        .setting-item select,
-        .setting-item textarea {
-            flex: 1;
-            padding: 10px 14px;
-            background: var(--bg-input);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: var(--text-primary);
-            font-size: 14px;
-        }
-        .setting-item input:focus,
-        .setting-item textarea:focus {
-            border-color: var(--primary);
-            outline: none;
-        }
-        .setting-item textarea { min-height: 60px; resize: vertical; }
-        .json-editor {
-            width: 100%;
-            min-height: 200px;
-            background: var(--bg-input);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            color: #4ECB71;
-            padding: 14px;
-            font-family: 'Courier New', monospace;
-            font-size: 13px;
-            resize: vertical;
-            margin: 10px 0;
-        }
-        .admin-buttons-group {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 10px;
-        }
-        .admin-buttons-group button {
-            flex: 1;
-            min-width: 120px;
-        }
         .toast {
             position: fixed;
             bottom: 100px;
@@ -815,14 +547,15 @@
             to { transform: translateX(-50%) translateY(0); opacity: 1; }
         }
         ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: var(--scrollbar-track); }
-        ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 10px; }
+        ::-webkit-scrollbar-track { background: #0D0D0D; }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+        [data-theme="light"] ::-webkit-scrollbar-track { background: #F0F0F0; }
     </style>
 </head>
-<body id="appBody">
+<body>
     <header class="header">
         <div class="header-content">
-            <div class="logo" id="logoTrigger">
+            <div class="logo">
                 <div class="logo-icon">💨</div>
                 <span class="logo-text" id="shopNameDisplay">Cloud_Ost</span>
             </div>
@@ -833,9 +566,6 @@
             <div class="search-container">
                 <input type="text" id="searchInput" placeholder="🔍 Поиск по названию, вкусу, описанию...">
             </div>
-        </div>
-        <div class="promo-banner" id="promoBanner">
-            <span id="promoTextDisplay">🔥 Скидка 25% на первую покупку! Промокод: CLOUD25</span>
         </div>
     </header>
 
@@ -849,30 +579,30 @@
     <nav class="bottom-nav" id="bottomNav">
         <button class="nav-item active" data-page="catalog">
             <span class="nav-icon">📋</span>
-            <span class="nav-label" id="navCatalogLabel">Каталог</span>
+            <span class="nav-label">Каталог</span>
         </button>
         <button class="nav-item" data-page="cart" id="navCart">
             <span class="nav-icon">🛒</span>
-            <span class="nav-label" id="navCartLabel">Корзина</span>
+            <span class="nav-label">Корзина</span>
             <span class="nav-badge" id="navCartBadge">0</span>
         </button>
         <button class="nav-item" data-page="about" id="aboutBtn">
             <span class="nav-icon">ℹ️</span>
-            <span class="nav-label" id="navAboutLabel">О нас</span>
+            <span class="nav-label">О нас</span>
         </button>
     </nav>
 
     <div class="cart-overlay" id="cartOverlay"></div>
     <div class="cart-sidebar" id="cartSidebar">
         <div class="cart-header">
-            <h3 id="cartTitle">🛒 Корзина</h3>
+            <h3>🛒 Корзина</h3>
             <button class="close-cart" id="closeCart">✕</button>
         </div>
         <div class="cart-items" id="cartItems">
             <div class="empty-cart">
                 <span class="empty-icon">🛍️</span>
-                <p id="emptyCartText">Корзина пуста</p>
-                <p class="empty-sub" id="emptyCartSub">Добавьте товары из каталога</p>
+                <p>Корзина пуста</p>
+                <p class="empty-sub">Добавьте товары из каталога</p>
             </div>
         </div>
         <div class="cart-footer">
@@ -888,7 +618,7 @@
         <div class="modal-content">
             <button class="modal-close" id="closeAbout">✕</button>
             <div class="about-section">
-                <h2 id="aboutTitle">☁️ О магазине Cloud_Ost</h2>
+                <h2>☁️ О магазине Cloud_Ost</h2>
                 <div class="about-text" id="aboutText">
                     <p>Мы — молодой и быстро развивающийся вейп-шоп, созданный людьми, которые действительно разбираются в вейпинге. Наша цель — предложить качественную продукцию, честные цены и сервис, к которому хочется возвращаться.</p>
                     <br>
@@ -908,183 +638,51 @@
         </div>
     </div>
 
-    <!-- АДМИН-ПАНЕЛЬ (скрыта) -->
-    <div class="admin-panel" id="adminPanel">
-        <div class="admin-container">
-            <button class="admin-close-btn" id="adminClose">✕</button>
-            <div id="adminLogin">
-                <div class="admin-password">
-                    <h2>🔐 Панель управления</h2>
-                    <p style="color: var(--text-secondary); margin-bottom:8px;">Введите пароль для доступа</p>
-                    <input type="password" id="adminPassword" placeholder="Введите пароль..." onkeydown="if(event.key==='Enter') adminLogin()">
-                    <button class="admin-btn" onclick="adminLogin()">Войти</button>
-                    <div class="hint">Пароль по умолчанию: admin123</div>
-                </div>
-            </div>
-            <div id="adminContent" style="display:none;">
-                <h2>⚙️ Управление магазином</h2>
-                <div class="admin-tabs">
-                    <button class="admin-tab active" data-tab="products">📦 Товары</button>
-                    <button class="admin-tab" data-tab="add">➕ Добавить</button>
-                    <button class="admin-tab" data-tab="categories">🏷️ Категории</button>
-                    <button class="admin-tab" data-tab="settings">⚙️ Настройки</button>
-                    <button class="admin-tab" data-tab="backup">💾 Backup</button>
-                </div>
-                <div class="admin-tab-content active" id="tab-products"><div id="adminProductList"></div></div>
-                <div class="admin-tab-content" id="tab-add">
-                    <h3 style="margin-bottom:16px;">➕ Добавить товар</h3>
-                    <div class="admin-form-group">
-                        <label>Название *</label>
-                        <input type="text" id="newName" placeholder="ElfQ Liquid">
-                    </div>
-                    <div class="admin-form-group">
-                        <label>Вкус</label>
-                        <input type="text" id="newFlavor" placeholder="Манго-Маракуйя">
-                    </div>
-                    <div class="admin-form-group">
-                        <label>Краткое описание (необязательно)</label>
-                        <input type="text" id="newDesc" placeholder="Сочный фруктовый микс">
-                    </div>
-                    <div class="admin-form-group">
-                        <label>Цена (Kč) *</label>
-                        <input type="number" id="newPrice" placeholder="450">
-                    </div>
-                    <div class="admin-form-group">
-                        <label>Старая цена (для скидки)</label>
-                        <input type="number" id="newOldPrice" placeholder="600">
-                    </div>
-                    <div class="admin-form-group">
-                        <label>Наличие (шт) *</label>
-                        <input type="number" id="newStock" placeholder="10">
-                    </div>
-                    <div class="admin-form-group">
-                        <label>Категория</label>
-                        <select id="newCategory"></select>
-                    </div>
-                    <div class="admin-form-group">
-                        <label>Ссылка на 3D-иконку (необязательно)</label>
-                        <input type="text" id="newIconUrl" placeholder="https://img.icons8.com/3d-fluency/96/apple.png">
-                    </div>
-                    <div class="admin-form-group">
-                        <label>Бейдж (необязательно)</label>
-                        <input type="text" id="newBadge" placeholder="⭐ NEW">
-                    </div>
-                    <button class="admin-btn success" onclick="addProduct()" style="width:100%;">➕ Добавить товар</button>
-                </div>
-                <div class="admin-tab-content" id="tab-categories">
-                    <h3 style="margin-bottom:16px;">🏷️ Управление категориями</h3>
-                    <div class="admin-form-group">
-                        <label>Название категории (с эмодзи)</label>
-                        <input type="text" id="newCategoryName" placeholder="🍎 Фруктовые">
-                    </div>
-                    <button class="admin-btn success" onclick="addCategory()" style="width:100%;">➕ Добавить категорию</button>
-                    <div style="margin-top:20px;" id="categoryList"></div>
-                </div>
-                <div class="admin-tab-content" id="tab-settings">
-                    <h3 style="margin-bottom:16px;">⚙️ Настройки текстов и интерфейса</h3>
-                    <div class="setting-item">
-                        <label>Название магазина</label>
-                        <input type="text" id="shopName" value="Cloud_Ost">
-                    </div>
-                    <div class="setting-item">
-                        <label>Заголовок страницы (title)</label>
-                        <input type="text" id="pageTitleInput" value="Cloud_Ost — Вейп Шоп">
-                    </div>
-                    <div class="setting-item">
-                        <label>Промо-текст (в шапке)</label>
-                        <input type="text" id="promoTextInput" value="🔥 Скидка 25% на первую покупку! Промокод: CLOUD25">
-                    </div>
-                    <div class="setting-item">
-                        <label>Показывать промо-баннер</label>
-                        <select id="showPromo">
-                            <option value="false">Нет</option>
-                            <option value="true">Да</option>
-                        </select>
-                    </div>
-                    <div class="setting-item">
-                        <label>Показывать скидки</label>
-                        <select id="showDiscounts">
-                            <option value="false">Нет</option>
-                            <option value="true">Да</option>
-                        </select>
-                    </div>
-                    <div class="setting-item">
-                        <label>Текст кнопки "Добавить"</label>
-                        <input type="text" id="addToCartLabel" value="🛒 Добавить">
-                    </div>
-                    <div class="setting-item">
-                        <label>Текст кнопки "Оформить заказ"</label>
-                        <input type="text" id="checkoutLabel" value="Оформить заказ">
-                    </div>
-                    <div class="setting-item">
-                        <label>Текст "О нас" (HTML)</label>
-                        <textarea id="aboutTextInput" rows="8">Мы — молодой и быстро развивающийся вейп-шоп, созданный людьми, которые действительно разбираются в вейпинге. Наша цель — предложить качественную продукцию, честные цены и сервис, к которому хочется возвращаться.
-
-Мы тщательно отбираем ассортимент, работаем только с проверенными поставщиками и следим за тем, чтобы каждый товар соответствовал высоким стандартам качества. Для нас важно, чтобы каждый клиент получил именно то, что ему нужно, независимо от того, только ли он знакомится с миром вейпинга или уже имеет большой опыт.
-
-Почему выбирают нас:
-• Только оригинальная продукция.
-• Актуальные новинки и популярные бренды.
-• Быстрая обработка и отправка заказов.
-• Честные цены без скрытых наценок.
-• Поддержка и помощь с выбором.
-
-Мы ценим доверие каждого клиента и стремимся сделать покупки максимально удобными, выгодными и приятными. Спасибо, что выбираете нас — мы только начинаем свой путь и будем рады стать вашим любимым вейп-шопом!</textarea>
-                    </div>
-                    <div class="setting-item">
-                        <label>Токен бота (для отправки заказов)</label>
-                        <input type="text" id="botToken" placeholder= 8800322131:AAGyDmhejJga0F65FobakauJdTcRE_8KPnw
-                    </div>
-                    <div class="setting-item">
-                        <label>Chat ID менеджера 
-                        <input type="text" id="8461436945" placeholder= 8461436945
-                    </div>
-                    <button class="admin-btn" onclick="saveSettings()" style="width:100%; margin-top:16px;">💾 Сохранить настройки</button>
-                </div>
-                <div class="admin-tab-content" id="tab-backup">
-                    <h3 style="margin-bottom:16px;">💾 Бэкап и восстановление</h3>
-                    <div class="admin-buttons-group">
-                        <button class="admin-btn" onclick="exportData()">📤 Экспорт</button>
-                        <button class="admin-btn" onclick="document.getElementById('importFile').click()">📥 Импорт</button>
-                        <input type="file" id="importFile" style="display:none" accept=".json" onchange="handleImport(event)">
-                    </div>
-                    <br>
-                    <textarea class="json-editor" id="jsonEditor" placeholder="Вставьте JSON..."></textarea>
-                    <div class="admin-buttons-group">
-                        <button class="admin-btn" onclick="applyJson()">📋 Применить JSON</button>
-                        <button class="admin-btn danger" onclick="resetAll()">⚠️ Сбросить всё</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <script>
-        // ===========================
-        //  ДАННЫЕ
-        // ===========================
-        let products = [
-            { id: 1, name: 'ElfQ Liquid', flavor: 'Apple Peach', desc: 'Сочный яблочно-персиковый микс', price: 350, oldPrice: 0, stock: 10, category: 'liquids', iconUrl: 'https://img.icons8.com/3d-fluency/96/apple.png', badge: '' },
-            { id: 2, name: 'ElfQ Liquid', flavor: 'Mango Passion', desc: 'Экзотическое манго с маракуйей', price: 350, oldPrice: 0, stock: 8, category: 'liquids', iconUrl: 'https://img.icons8.com/3d-fluency/96/mango.png', badge: '' },
-            { id: 3, name: 'ElfQ Liquid', flavor: 'Strawberry Kiwi', desc: 'Клубника и киви — идеальное сочетание', price: 350, oldPrice: 0, stock: 12, category: 'liquids', iconUrl: 'https://img.icons8.com/3d-fluency/96/strawberry.png', badge: '' }
-        ];
+        // ============================================================
+        //  ❗ ЗДЕСЬ ТЫ МЕНЯЕШЬ ТОКЕН И CHAT ID НА СВОИ (поищи по коду)
+        // ============================================================
+        const BOT_TOKEN = '8800322131:AAGyDmhejJga0F65FobakauJdTcRE_8KPnw';   // замени на свой
+        const CHAT_ID = '8461436945';                                     // замени на свой
 
-        let categories = [
-            { id: 'all', label: 'Все', emoji: '' },
-            { id: 'liquids', label: 'Жидкости', emoji: '💧' }
+        // ============================================================
+        //  ТОВАРЫ
+        // ============================================================
+        let products = [
+            {
+                id: 1,
+                name: 'ElfliQ 💫',
+                flavor: 'ElfliQ 50mg/30ml Apple Peach',
+                desc: 'Сочный яблочно-персиковый микс с лёгкой мятной свежестью.',
+                price: 350,
+                stock: 2,
+                category: 'liquids',
+                iconUrl: 'https://elf-bar.com.ua/wp-content/uploads/2024/05/Elfliq_30ml_ApplePeach.webp'
+            },
+            // можно добавить другие товары для примера (все с этой же картинкой)
+            {
+                id: 2,
+                name: 'ElfliQ 💫',
+                flavor: 'ElfliQ 50mg/30ml Strawberry Ice',
+                desc: 'Сладкая клубника с ледяным послевкусием.',
+                price: 350,
+                stock: 3,
+                category: 'liquids',
+                iconUrl: 'https://elf-bar.com.ua/wp-content/uploads/2024/05/Elfliq_30ml_ApplePeach.webp'
+            }
         ];
 
         let cart = [];
-        let showDiscounts = false;
-        let showPromo = false;
-        let currentTheme = 'dark';
-        const ADMIN_PASSWORD = 'admin123';
         let currentCategory = 'all';
         let searchQuery = '';
+        let currentTheme = 'dark';
 
+        // ============================================================
+        //  ЗАГРУЗКА / СОХРАНЕНИЕ
+        // ============================================================
         function saveData() {
             localStorage.setItem('cloud_ost_products', JSON.stringify(products));
             localStorage.setItem('cloud_ost_cart', JSON.stringify(cart));
-            localStorage.setItem('cloud_ost_categories', JSON.stringify(categories));
             localStorage.setItem('cloud_ost_theme', currentTheme);
         }
 
@@ -1093,12 +691,13 @@
             if (savedProducts) try { products = JSON.parse(savedProducts); } catch(e) {}
             const savedCart = localStorage.getItem('cloud_ost_cart');
             if (savedCart) try { cart = JSON.parse(savedCart); } catch(e) {}
-            const savedCategories = localStorage.getItem('cloud_ost_categories');
-            if (savedCategories) try { categories = JSON.parse(savedCategories); } catch(e) {}
             const savedTheme = localStorage.getItem('cloud_ost_theme');
             if (savedTheme) currentTheme = savedTheme;
         }
 
+        // ============================================================
+        //  ТЕМА
+        // ============================================================
         function applyTheme(theme) {
             currentTheme = theme;
             document.documentElement.setAttribute('data-theme', theme);
@@ -1110,6 +709,9 @@
             applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
         }
 
+        // ============================================================
+        //  TOAST
+        // ============================================================
         function showToast(msg) {
             const old = document.querySelector('.toast');
             if (old) old.remove();
@@ -1120,15 +722,15 @@
             setTimeout(() => t.remove(), 2500);
         }
 
+        // ============================================================
+        //  ОТРИСОВКА ТОВАРОВ
+        // ============================================================
         function renderProducts(categoryId = 'all', query = '') {
             const grid = document.getElementById('productGrid');
             let filtered = products;
 
             if (categoryId !== 'all' && categoryId !== 'sale') {
                 filtered = filtered.filter(p => p.category === categoryId);
-            }
-            if (categoryId === 'sale') {
-                filtered = filtered.filter(p => p.oldPrice && p.oldPrice > p.price && showDiscounts);
             }
 
             if (query.trim()) {
@@ -1145,29 +747,26 @@
                 return;
             }
 
-            const addLabel = document.getElementById('addToCartLabel')?.value || '🛒 Добавить';
             grid.innerHTML = filtered.map(p => {
                 const inCart = cart.find(i => i.id === p.id);
                 const qty = inCart ? inCart.quantity : 0;
-                const isOnSale = p.oldPrice && p.oldPrice > p.price && showDiscounts;
+                const isOutOfStock = p.stock <= 0;
+                const stockClass = isOutOfStock ? 'out-of-stock' : (p.stock < 5 ? 'low-stock' : 'in-stock');
+                const stockText = isOutOfStock ? '❌ Нет в наличии' : (p.stock < 5 ? `⚠️ Осталось ${p.stock} шт` : `✅ В наличии: ${p.stock} шт`);
                 const iconHtml = p.iconUrl ? `<img src="${p.iconUrl}" alt="${p.name}" loading="lazy">` : `<span style="font-size:40px;">💧</span>`;
-                const descHtml = p.desc ? `<div class="product-desc">${p.desc}</div>` : '';
-                const badgeHtml = p.badge && isOnSale ? `<div style="position:absolute;top:10px;right:10px;background:var(--primary);padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;">${p.badge}</div>` : '';
-                const stockClass = p.stock <= 0 ? '' : (p.stock < 5 ? 'low-stock' : 'in-stock');
-                const stockText = p.stock > 0 ? (p.stock < 5 ? `⚠️ Осталось ${p.stock} шт` : `✅ В наличии: ${p.stock} шт`) : '❌ Нет в наличии';
                 return `
-                    <div class="product-card" data-id="${p.id}" style="position:relative;">
-                        ${badgeHtml}
+                    <div class="product-card" data-id="${p.id}">
                         <div class="product-image">${iconHtml}</div>
                         <div class="product-name">${p.name}</div>
                         <div class="product-flavor">${p.flavor}</div>
-                        ${descHtml}
+                        ${p.desc ? `<div class="product-desc">${p.desc}</div>` : ''}
                         <div class="product-stock ${stockClass}">${stockText}</div>
                         <div class="product-price">
-                            ${isOnSale ? `<span class="price-old">${p.oldPrice} Kč</span>` : ''}
                             <span class="price-current">${p.price} Kč</span>
                         </div>
-                        <button class="add-to-cart" onclick="addToCart(${p.id})">${qty > 0 ? 'В корзине ('+qty+')' : addLabel}</button>
+                        <button class="add-to-cart" onclick="addToCart(${p.id})" ${isOutOfStock ? 'disabled' : ''}>
+                            ${isOutOfStock ? '❌ Нет в наличии' : (qty > 0 ? 'В корзине ('+qty+')' : '🛒 Добавить')}
+                        </button>
                     </div>
                 `;
             }).join('');
@@ -1177,15 +776,17 @@
             renderProducts(currentCategory, searchQuery);
         }
 
+        // ============================================================
+        //  КОРЗИНА
+        // ============================================================
         function addToCart(id) {
             const p = products.find(x => x.id === id);
-            if (!p) return;
+            if (!p || p.stock <= 0) { showToast('❌ Нет в наличии'); return; }
             const existing = cart.find(x => x.id === id);
             if (existing) {
                 if (existing.quantity < p.stock) { existing.quantity++; }
                 else { showToast('❌ Нет больше в наличии!'); return; }
             } else {
-                if (p.stock <= 0) { showToast('❌ Товара нет'); return; }
                 cart.push({ id: p.id, name: p.name, flavor: p.flavor, price: p.price, quantity: 1, iconUrl: p.iconUrl, maxStock: p.stock });
             }
             updateCartUI();
@@ -1205,7 +806,7 @@
         function renderCartItems() {
             const container = document.getElementById('cartItems');
             if (cart.length === 0) {
-                container.innerHTML = `<div class="empty-cart"><span class="empty-icon">🛍️</span><p>${document.getElementById('emptyCartText')?.textContent || 'Корзина пуста'}</p><p class="empty-sub">${document.getElementById('emptyCartSub')?.textContent || 'Добавьте товары из каталога'}</p></div>`;
+                container.innerHTML = `<div class="empty-cart"><span class="empty-icon">🛍️</span><p>Корзина пуста</p><p class="empty-sub">Добавьте товары из каталога</p></div>`;
                 return;
             }
             container.innerHTML = cart.map(item => `
@@ -1228,9 +829,11 @@
         function updateQty(id, change) {
             const item = cart.find(x => x.id === id);
             if (!item) return;
+            const product = products.find(p => p.id === id);
+            if (!product) return;
             const newQty = item.quantity + change;
             if (newQty <= 0) { cart = cart.filter(x => x.id !== id); }
-            else if (newQty <= item.maxStock) { item.quantity = newQty; }
+            else if (newQty <= product.stock) { item.quantity = newQty; }
             else { showToast('❌ Нет больше!'); return; }
             updateCartUI();
             saveData();
@@ -1251,18 +854,22 @@
             document.getElementById('cartOverlay').classList.remove('active');
         }
 
-        // ОФОРМЛЕНИЕ ЗАКАЗА + СПИСАНИЕ
+        // ============================================================
+        //  ОФОРМЛЕНИЕ ЗАКАЗА + СПИСАНИЕ + ОТПРАВКА В БОТ
+        // ============================================================
         function checkout() {
             if (cart.length === 0) { showToast('🛒 Корзина пуста!'); return; }
 
+            // Проверяем остатки
             for (let item of cart) {
                 const product = products.find(p => p.id === item.id);
                 if (!product || product.stock < item.quantity) {
-                    showToast(`❌ Не хватает товара "${product ? product.name : '?'}" (осталось ${product ? product.stock : 0})`);
+                    showToast(`❌ Не хватает "${product ? product.name : '?'}" (осталось ${product ? product.stock : 0})`);
                     return;
                 }
             }
 
+            // Списываем
             for (let item of cart) {
                 const product = products.find(p => p.id === item.id);
                 if (product) {
@@ -1277,34 +884,27 @@
             const user = tg?.initDataUnsafe?.user?.username || 'Гость';
             const fullMessage = `✅ *Новый заказ!*\n\n${orderText}\n\n💰 *Итого:* ${total} Kč\n\n👤 *Клиент:* @${user}`;
 
-            const token = document.getElementById('botToken')?.value.trim();
-            const chatId = document.getElementById('managerChatId')?.value.trim();
+            // Отправка в бот (используем жёстко заданные константы)
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: CHAT_ID, text: fullMessage, parse_mode: 'Markdown' })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.ok) {
+                    showToast('✅ Заказ отправлен менеджеру!');
+                } else {
+                    alert('❌ Ошибка отправки: ' + (data.description || 'неизвестная ошибка') + '\n\nСкопируйте заказ вручную:\n' + fullMessage);
+                    showToast('❌ Не удалось отправить заказ');
+                }
+            })
+            .catch(err => {
+                alert('❌ Ошибка соединения: ' + err.message + '\n\nСкопируйте заказ вручную:\n' + fullMessage);
+                showToast('❌ Ошибка отправки');
+            });
 
-            if (!token || !chatId) {
-                alert('⚠️ Настройки бота не заполнены!\n\nПерейдите в админ-панель → Настройки и укажите:\n- Токен бота (получить у @BotFather)\n- Chat ID менеджера (получить у @userinfobot)\n\nЗаказ не был отправлен, но вы можете скопировать его вручную:\n\n' + fullMessage);
-                showToast('❌ Бот не настроен! Заказ не отправлен.');
-            } else {
-                fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ chat_id: chatId, text: fullMessage, parse_mode: 'Markdown' })
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.ok) {
-                        showToast('✅ Заказ отправлен менеджеру!');
-                    } else {
-                        alert('❌ Ошибка отправки: ' + (data.description || 'неизвестная ошибка') + '\n\nСкопируйте заказ вручную:\n' + fullMessage);
-                        showToast('❌ Не удалось отправить заказ');
-                    }
-                })
-                .catch(err => {
-                    alert('❌ Ошибка соединения: ' + err.message + '\n\nСкопируйте заказ вручную:\n' + fullMessage);
-                    showToast('❌ Ошибка отправки');
-                });
-            }
-
-            alert(`✅ Заказ оформлен!\n\n${orderText}\n\n💰 Итого: ${total} Kč\n\n👤 Клиент: @${user}\n\n📞 Скоро с вами свяжется менеджер.`);
+            alert(`✅ Заказ оформлен!\n\n${orderText}\n\n💰 Итого: ${total} Kč\n\n👤 Клиент: @${user}\n\n📞 Менеджер свяжется с вами.`);
 
             cart = [];
             updateCartUI();
@@ -1314,11 +914,17 @@
             showToast('🎉 Заказ оформлен!');
         }
 
-        // ===========================
+        // ============================================================
         //  КАТЕГОРИИ
-        // ===========================
+        // ============================================================
         function renderCategories() {
             const container = document.getElementById('categoriesContainer');
+            // можно сделать динамически, но у нас только две категории, пока оставим жёстко
+            // но для удобства сделаем из массива categories
+            const categories = [
+                { id: 'all', label: 'Все', emoji: '' },
+                { id: 'liquids', label: 'Жидкости', emoji: '💧' }
+            ];
             container.innerHTML = '';
             categories.forEach(cat => {
                 const btn = document.createElement('button');
@@ -1335,397 +941,34 @@
             });
         }
 
-        function renderCategoryList() {
-            const container = document.getElementById('categoryList');
-            if (!container) return;
-            container.innerHTML = categories.filter(c => c.id !== 'all').map((c, idx) => `
-                <div class="admin-product-item">
-                    <div class="admin-product-info">${c.emoji} ${c.label}</div>
-                    <div class="admin-product-actions">
-                        <button class="delete-btn" onclick="deleteCategory('${c.id}')">🗑️</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function addCategory() {
-            const input = document.getElementById('newCategoryName');
-            const raw = input.value.trim();
-            if (!raw) { alert('Введите название категории'); return; }
-            const emojiMatch = raw.match(/^(\p{Emoji}\s*)/u);
-            const emoji = emojiMatch ? emojiMatch[0].trim() : '';
-            const label = emojiMatch ? raw.replace(emojiMatch[0], '').trim() : raw;
-            if (!label) { alert('Введите название после эмодзи'); return; }
-            const id = label.toLowerCase().replace(/\s+/g, '_');
-            if (categories.find(c => c.id === id)) { alert('Такая категория уже есть'); return; }
-            categories.push({ id, label, emoji });
-            renderCategories();
-            renderCategoryList();
-            populateCategorySelect();
-            saveData();
-            showToast('✅ Категория добавлена');
-            input.value = '';
-        }
-
-        function deleteCategory(id) {
-            if (id === 'all') return;
-            if (!confirm(`Удалить категорию?`)) return;
-            categories = categories.filter(c => c.id !== id);
-            if (currentCategory === id) currentCategory = 'all';
-            renderCategories();
-            renderCategoryList();
-            populateCategorySelect();
-            refreshDisplay();
-            saveData();
-            showToast('🗑️ Категория удалена');
-        }
-
-        function populateCategorySelect() {
-            const select = document.getElementById('newCategory');
-            if (!select) return;
-            select.innerHTML = '';
-            categories.forEach(c => {
-                if (c.id === 'all') return;
-                const opt = document.createElement('option');
-                opt.value = c.id;
-                opt.textContent = (c.emoji ? c.emoji + ' ' : '') + c.label;
-                select.appendChild(opt);
-            });
-        }
-
-        // ===========================
-        //  ПЕРЕМЕЩЕНИЕ ТОВАРА
-        // ===========================
-        function moveProduct(index) {
-            const p = products[index];
-            if (!p) return;
-            const categoryList = categories.filter(c => c.id !== 'all').map(c => c.id);
-            if (categoryList.length === 0) {
-                alert('Нет категорий для перемещения. Сначала создайте категории.');
-                return;
-            }
-            const newCat = prompt('Введите ID категории (из списка):\n' + categoryList.join(', '), p.category);
-            if (newCat === null) return;
-            if (categories.find(c => c.id === newCat)) {
-                p.category = newCat;
-                renderAdminProducts();
-                refreshDisplay();
-                saveData();
-                showToast('✅ Товар перемещён в категорию ' + newCat);
-            } else {
-                alert('❌ Категория с таким ID не найдена');
-            }
-        }
-
-        // ===========================
-        //  АДМИНКА (товары)
-        // ===========================
-        function renderAdminProducts() {
-            const container = document.getElementById('adminProductList');
-            if (products.length === 0) {
-                container.innerHTML = '<p style="color: var(--text-secondary); padding:20px 0;">Нет товаров.</p>';
-                return;
-            }
-            container.innerHTML = products.map((p, idx) => `
-                <div class="admin-product-item">
-                    <div class="admin-product-info">
-                        <div class="admin-product-name">${p.iconUrl ? `<img src="${p.iconUrl}" style="width:24px;height:24px;object-fit:contain;vertical-align:middle;margin-right:6px;">` : ''} ${p.name}</div>
-                        <div class="admin-product-flavor">${p.flavor} • ${p.price} Kč • ${p.stock} шт • ${p.category || 'без категории'}</div>
-                    </div>
-                    <div class="admin-product-actions">
-                        <button class="edit-btn" onclick="editProduct(${idx})">✏️</button>
-                        <button class="move-btn" onclick="moveProduct(${idx})">↕️ Переместить</button>
-                        <button class="delete-btn" onclick="deleteProduct(${idx})">🗑️</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function addProduct() {
-            const name = document.getElementById('newName').value.trim();
-            const flavor = document.getElementById('newFlavor').value.trim();
-            const desc = document.getElementById('newDesc').value.trim();
-            const price = parseInt(document.getElementById('newPrice').value);
-            const oldPrice = parseInt(document.getElementById('newOldPrice').value) || 0;
-            const stock = parseInt(document.getElementById('newStock').value);
-            const category = document.getElementById('newCategory').value;
-            const iconUrl = document.getElementById('newIconUrl').value.trim();
-            const badge = document.getElementById('newBadge').value.trim() || '';
-
-            if (!name || !flavor || !price || !stock) {
-                alert('❌ Заполните обязательные поля (название, вкус, цена, наличие)');
-                return;
-            }
-
-            products.push({
-                id: Date.now(),
-                name,
-                flavor,
-                desc: desc || '',
-                price,
-                oldPrice: oldPrice || 0,
-                stock,
-                category: category || 'liquids',
-                iconUrl: iconUrl || 'https://img.icons8.com/3d-fluency/96/watermelon.png',
-                badge
-            });
-
-            document.getElementById('newName').value = '';
-            document.getElementById('newFlavor').value = '';
-            document.getElementById('newDesc').value = '';
-            document.getElementById('newPrice').value = '';
-            document.getElementById('newOldPrice').value = '';
-            document.getElementById('newStock').value = '';
-            document.getElementById('newIconUrl').value = '';
-            document.getElementById('newBadge').value = '';
-
-            renderAdminProducts();
-            refreshDisplay();
-            saveData();
-            showToast('✅ Товар добавлен!');
-        }
-
-        function editProduct(idx) {
-            const p = products[idx];
-            const newName = prompt('Название:', p.name);
-            if (newName === null) return;
-            const newFlavor = prompt('Вкус:', p.flavor);
-            if (newFlavor === null) return;
-            const newDesc = prompt('Краткое описание:', p.desc || '');
-            if (newDesc === null) return;
-            const newPrice = prompt('Цена (Kč):', p.price);
-            if (newPrice === null) return;
-            const newStock = prompt('Наличие (шт):', p.stock);
-            if (newStock === null) return;
-            const newIconUrl = prompt('Ссылка на иконку:', p.iconUrl || '');
-            if (newIconUrl === null) return;
-            const newBadge = prompt('Бейдж:', p.badge || '');
-            if (newBadge === null) return;
-            const newCategory = prompt('Категория (id):', p.category || 'liquids');
-            if (newCategory === null) return;
-
-            products[idx] = { ...p, name: newName, flavor: newFlavor, desc: newDesc, price: parseInt(newPrice), stock: parseInt(newStock), iconUrl: newIconUrl || p.iconUrl, badge: newBadge, category: newCategory };
-            renderAdminProducts();
-            refreshDisplay();
-            saveData();
-            showToast('✅ Обновлено!');
-        }
-
-        function deleteProduct(idx) {
-            if (confirm(`Удалить "${products[idx].name}"?`)) {
-                products.splice(idx, 1);
-                renderAdminProducts();
-                refreshDisplay();
-                saveData();
-                showToast('🗑️ Удалено');
-            }
-        }
-
-        // ===========================
-        //  НАСТРОЙКИ
-        // ===========================
-        function loadSettings() {
-            const saved = localStorage.getItem('cloud_ost_settings');
-            if (saved) {
-                try {
-                    const s = JSON.parse(saved);
-                    document.getElementById('shopName').value = s.shopName || 'Cloud_Ost';
-                    document.getElementById('pageTitleInput').value = s.pageTitle || 'Cloud_Ost — Вейп Шоп';
-                    document.getElementById('promoTextInput').value = s.promoText || '🔥 Скидка 25% на первую покупку! Промокод: CLOUD25';
-                    document.getElementById('showPromo').value = s.showPromo ? 'true' : 'false';
-                    document.getElementById('showDiscounts').value = s.showDiscounts ? 'true' : 'false';
-                    document.getElementById('addToCartLabel').value = s.addToCartLabel || '🛒 Добавить';
-                    document.getElementById('checkoutLabel').value = s.checkoutLabel || 'Оформить заказ';
-                    document.getElementById('aboutTextInput').value = s.aboutText || document.getElementById('aboutTextInput').value;
-                    document.getElementById('botToken').value = s.botToken || '';
-                    document.getElementById('managerChatId').value = s.managerChatId || '';
-                    document.getElementById('shopNameDisplay').textContent = s.shopName || 'Cloud_Ost';
-                    document.getElementById('pageTitle').textContent = s.pageTitle || 'Cloud_Ost — Вейп Шоп';
-                    document.getElementById('promoTextDisplay').textContent = s.promoText || '🔥 Скидка 25% на первую покупку! Промокод: CLOUD25';
-                    showPromo = s.showPromo || false;
-                    showDiscounts = s.showDiscounts || false;
-                    if (showPromo) document.getElementById('promoBanner').classList.add('show');
-                    else document.getElementById('promoBanner').classList.remove('show');
-                    document.getElementById('aboutText').innerHTML = s.aboutText || document.getElementById('aboutTextInput').value;
-                } catch(e) {}
-            } else {
-                document.getElementById('showPromo').value = 'false';
-                document.getElementById('showDiscounts').value = 'false';
-                showPromo = false;
-                showDiscounts = false;
-                document.getElementById('promoBanner').classList.remove('show');
-            }
-        }
-
-        function saveSettings() {
-            const settings = {
-                shopName: document.getElementById('shopName').value,
-                pageTitle: document.getElementById('pageTitleInput').value,
-                promoText: document.getElementById('promoTextInput').value,
-                showPromo: document.getElementById('showPromo').value === 'true',
-                showDiscounts: document.getElementById('showDiscounts').value === 'true',
-                addToCartLabel: document.getElementById('addToCartLabel').value,
-                checkoutLabel: document.getElementById('checkoutLabel').value,
-                aboutText: document.getElementById('aboutTextInput').value,
-                botToken: document.getElementById('botToken').value,
-                managerChatId: document.getElementById('managerChatId').value
-            };
-            localStorage.setItem('cloud_ost_settings', JSON.stringify(settings));
-            document.getElementById('shopNameDisplay').textContent = settings.shopName;
-            document.getElementById('pageTitle').textContent = settings.pageTitle;
-            document.getElementById('promoTextDisplay').textContent = settings.promoText;
-            if (settings.showPromo) document.getElementById('promoBanner').classList.add('show');
-            else document.getElementById('promoBanner').classList.remove('show');
-            showPromo = settings.showPromo;
-            showDiscounts = settings.showDiscounts;
-            document.getElementById('aboutText').innerHTML = settings.aboutText;
-            refreshDisplay();
-            showToast('✅ Настройки сохранены!');
-            saveData();
-        }
-
-        // ===========================
-        //  СКРЫТЫЙ ВХОД В АДМИНКУ (двойной клик на логотипе)
-        // ===========================
-        function showAdminLogin() {
-            document.getElementById('adminPanel').classList.add('active');
-            document.getElementById('adminPassword').value = '';
-            document.getElementById('adminPassword').focus();
-            document.getElementById('adminLogin').style.display = 'block';
-            document.getElementById('adminContent').style.display = 'none';
-        }
-
-        // ===========================
-        //  АДМИНКА (логин, бэкап)
-        // ===========================
-        function adminLogin() {
-            const input = document.getElementById('adminPassword');
-            if (input.value === ADMIN_PASSWORD) {
-                document.getElementById('adminLogin').style.display = 'none';
-                document.getElementById('adminContent').style.display = 'block';
-                renderAdminProducts();
-                renderCategoryList();
-                populateCategorySelect();
-                loadSettings();
-                showToast('🔓 Добро пожаловать!');
-            } else {
-                alert('❌ Неверный пароль!');
-                input.value = '';
-                input.focus();
-            }
-        }
-
-        function exportData() {
-            const data = {
-                products,
-                categories,
-                settings: JSON.parse(localStorage.getItem('cloud_ost_settings') || '{}'),
-                theme: currentTheme
-            };
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'cloud_ost_backup.json';
-            a.click();
-            URL.revokeObjectURL(url);
-            showToast('📤 Экспорт готов');
-        }
-
-        function handleImport(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const data = JSON.parse(e.target.result);
-                    if (data.products) products = data.products;
-                    if (data.categories) categories = data.categories;
-                    if (data.theme) applyTheme(data.theme);
-                    renderCategories();
-                    renderAdminProducts();
-                    renderCategoryList();
-                    populateCategorySelect();
-                    refreshDisplay();
-                    saveData();
-                    showToast('✅ Импорт выполнен');
-                } catch (err) {
-                    alert('❌ Ошибка: ' + err.message);
-                }
-            };
-            reader.readAsText(file);
-            event.target.value = '';
-        }
-
-        function applyJson() {
-            try {
-                const data = JSON.parse(document.getElementById('jsonEditor').value);
-                if (data.products) products = data.products;
-                if (data.categories) categories = data.categories;
-                if (data.theme) applyTheme(data.theme);
-                renderCategories();
-                renderAdminProducts();
-                renderCategoryList();
-                populateCategorySelect();
-                refreshDisplay();
-                saveData();
-                showToast('✅ JSON применён');
-            } catch (err) {
-                alert('❌ Ошибка JSON: ' + err.message);
-            }
-        }
-
-        function resetAll() {
-            if (confirm('⚠️ Удалить все товары, категории и настройки?')) {
-                if (confirm('Вы уверены?')) {
-                    products = [];
-                    categories = [{ id: 'all', label: 'Все', emoji: '' }, { id: 'liquids', label: 'Жидкости', emoji: '💧' }];
-                    localStorage.removeItem('cloud_ost_products');
-                    localStorage.removeItem('cloud_ost_categories');
-                    localStorage.removeItem('cloud_ost_settings');
-                    localStorage.removeItem('cloud_ost_cart');
-                    renderCategories();
-                    renderAdminProducts();
-                    renderCategoryList();
-                    populateCategorySelect();
-                    refreshDisplay();
-                    saveData();
-                    showToast('🔄 Сброшено');
-                }
-            }
-        }
-
-        // ===========================
+        // ============================================================
         //  ИНИЦИАЛИЗАЦИЯ
-        // ===========================
+        // ============================================================
         document.addEventListener('DOMContentLoaded', function() {
             loadData();
             applyTheme(currentTheme);
             renderCategories();
-            loadSettings();
             currentCategory = 'all';
             searchQuery = '';
             refreshDisplay();
             updateCartUI();
-            populateCategorySelect();
 
+            // Поиск
             document.getElementById('searchInput').addEventListener('input', function() {
                 searchQuery = this.value;
                 refreshDisplay();
             });
 
+            // Тема
             document.getElementById('themeToggle').addEventListener('click', toggleTheme);
 
-            // Скрытый вход по двойному клику на логотипе (без подсказки)
-            document.getElementById('logoTrigger').addEventListener('dblclick', function(e) {
-                showAdminLogin();
-            });
-
+            // Корзина
             document.getElementById('cartBtn').addEventListener('click', toggleCart);
             document.getElementById('closeCart').addEventListener('click', closeCart);
             document.getElementById('cartOverlay').addEventListener('click', closeCart);
             document.getElementById('checkoutBtn').addEventListener('click', checkout);
 
+            // О нас
             document.getElementById('aboutBtn').addEventListener('click', () => {
                 document.getElementById('aboutModal').classList.add('active');
             });
@@ -1736,36 +979,21 @@
                 if (e.target === this) this.classList.remove('active');
             });
 
-            document.getElementById('adminClose').addEventListener('click', () => {
-                document.getElementById('adminPanel').classList.remove('active');
-            });
-            document.getElementById('adminPanel').addEventListener('click', function(e) {
-                if (e.target === this) this.classList.remove('active');
-            });
-
-            document.querySelectorAll('.admin-tab').forEach(tab => {
-                tab.addEventListener('click', function() {
-                    document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
-                    document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.remove('active'));
-                    this.classList.add('active');
-                    document.getElementById('tab-' + this.dataset.tab).classList.add('active');
-                });
-            });
-
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    document.getElementById('adminPanel').classList.remove('active');
-                    closeCart();
-                    document.getElementById('aboutModal').classList.remove('active');
-                }
-            });
-
+            // Навигация (переключение вкладок – чисто визуальное)
             document.querySelectorAll('.nav-item').forEach(btn => {
                 btn.addEventListener('click', function() {
                     document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
                     if (this.dataset.page === 'cart') toggleCart();
                 });
+            });
+
+            // Закрытие по Escape
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeCart();
+                    document.getElementById('aboutModal').classList.remove('active');
+                }
             });
         });
     </script>
