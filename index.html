@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" id="htmlRoot">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -9,7 +9,6 @@
         * { margin:0; padding:0; box-sizing:border-box; }
         :root {
             --primary: #E63946;
-            --primary-dark: #B71C1C;
             --bg-body: radial-gradient(ellipse at top, #2C0A0A, #0D0D0D 70%);
             --bg-header: linear-gradient(135deg, rgba(230,57,70,0.9), rgba(20,0,0,0.95));
             --bg-card: rgba(20,20,25,0.85);
@@ -247,12 +246,7 @@
         .product-stock.in-stock { color: #4ECB71; }
         .product-stock.low-stock { color: #FFD93D; }
         .product-stock.out-of-stock { color: #FF6B6B; }
-        .product-price {
-            display: flex;
-            align-items: baseline;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
+        .product-price { margin-bottom: 12px; }
         .price-current { font-size: 22px; font-weight: 700; }
         .add-to-cart {
             width: 100%;
@@ -557,7 +551,7 @@
         <div class="header-content">
             <div class="logo">
                 <div class="logo-icon">💨</div>
-                <span class="logo-text" id="shopNameDisplay">Cloud_Ost</span>
+                <span class="logo-text">Cloud_Ost</span>
             </div>
             <div class="header-actions">
                 <button class="theme-toggle" id="themeToggle">🌙</button>
@@ -639,15 +633,16 @@
     </div>
 
     <script>
-        // ============================================================
-        //  ❗ ЗДЕСЬ ТЫ МЕНЯЕШЬ ТОКЕН И CHAT ID НА СВОИ (поищи по коду)
-        // ============================================================
-        const BOT_TOKEN = '8800322131:AAGyDmhejJga0F65FobakauJdTcRE_8KPnw';   // замени на свой
-        const CHAT_ID = '8461436945';                                     // замени на свой
+        // ================================================================
+        //  ❗ ЗДЕСЬ ТВОЙ ТОКЕН И CHAT ID (ЗАМЕНИ НА СВОИ, КОГДА НАДО)
+        //  Ты можешь найти их по словам BOT_TOKEN и CHAT_ID
+        // ================================================================
+        const BOT_TOKEN = '8800322131:AAGyDmhejJga0F65FobakauJdTcRE_8KPnw';
+        const CHAT_ID = '8461436945';
 
-        // ============================================================
-        //  ТОВАРЫ
-        // ============================================================
+        // ================================================================
+        //  ТОВАРЫ – ТОЛЬКО ОДНА ПОЗИЦИЯ, КАК ТЫ ПРОСИЛ
+        // ================================================================
         let products = [
             {
                 id: 1,
@@ -658,17 +653,6 @@
                 stock: 2,
                 category: 'liquids',
                 iconUrl: 'https://elf-bar.com.ua/wp-content/uploads/2024/05/Elfliq_30ml_ApplePeach.webp'
-            },
-            // можно добавить другие товары для примера (все с этой же картинкой)
-            {
-                id: 2,
-                name: 'ElfliQ 💫',
-                flavor: 'ElfliQ 50mg/30ml Strawberry Ice',
-                desc: 'Сладкая клубника с ледяным послевкусием.',
-                price: 350,
-                stock: 3,
-                category: 'liquids',
-                iconUrl: 'https://elf-bar.com.ua/wp-content/uploads/2024/05/Elfliq_30ml_ApplePeach.webp'
             }
         ];
 
@@ -677,9 +661,9 @@
         let searchQuery = '';
         let currentTheme = 'dark';
 
-        // ============================================================
-        //  ЗАГРУЗКА / СОХРАНЕНИЕ
-        // ============================================================
+        // ================================================================
+        //  ЗАГРУЗКА / СОХРАНЕНИЕ В localStorage
+        // ================================================================
         function saveData() {
             localStorage.setItem('cloud_ost_products', JSON.stringify(products));
             localStorage.setItem('cloud_ost_cart', JSON.stringify(cart));
@@ -695,9 +679,9 @@
             if (savedTheme) currentTheme = savedTheme;
         }
 
-        // ============================================================
+        // ================================================================
         //  ТЕМА
-        // ============================================================
+        // ================================================================
         function applyTheme(theme) {
             currentTheme = theme;
             document.documentElement.setAttribute('data-theme', theme);
@@ -709,9 +693,9 @@
             applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
         }
 
-        // ============================================================
+        // ================================================================
         //  TOAST
-        // ============================================================
+        // ================================================================
         function showToast(msg) {
             const old = document.querySelector('.toast');
             if (old) old.remove();
@@ -722,14 +706,14 @@
             setTimeout(() => t.remove(), 2500);
         }
 
-        // ============================================================
-        //  ОТРИСОВКА ТОВАРОВ
-        // ============================================================
+        // ================================================================
+        //  ОТРИСОВКА ТОВАРОВ (фильтр по категории + поиск)
+        // ================================================================
         function renderProducts(categoryId = 'all', query = '') {
             const grid = document.getElementById('productGrid');
             let filtered = products;
 
-            if (categoryId !== 'all' && categoryId !== 'sale') {
+            if (categoryId !== 'all') {
                 filtered = filtered.filter(p => p.category === categoryId);
             }
 
@@ -776,9 +760,9 @@
             renderProducts(currentCategory, searchQuery);
         }
 
-        // ============================================================
+        // ================================================================
         //  КОРЗИНА
-        // ============================================================
+        // ================================================================
         function addToCart(id) {
             const p = products.find(x => x.id === id);
             if (!p || p.stock <= 0) { showToast('❌ Нет в наличии'); return; }
@@ -854,9 +838,9 @@
             document.getElementById('cartOverlay').classList.remove('active');
         }
 
-        // ============================================================
-        //  ОФОРМЛЕНИЕ ЗАКАЗА + СПИСАНИЕ + ОТПРАВКА В БОТ
-        // ============================================================
+        // ================================================================
+        //  ОФОРМЛЕНИЕ ЗАКАЗА + СПИСАНИЕ + ОТПРАВКА МЕНЕДЖЕРУ (БЕЗ АДМИНКИ)
+        // ================================================================
         function checkout() {
             if (cart.length === 0) { showToast('🛒 Корзина пуста!'); return; }
 
@@ -884,7 +868,7 @@
             const user = tg?.initDataUnsafe?.user?.username || 'Гость';
             const fullMessage = `✅ *Новый заказ!*\n\n${orderText}\n\n💰 *Итого:* ${total} Kč\n\n👤 *Клиент:* @${user}`;
 
-            // Отправка в бот (используем жёстко заданные константы)
+            // Отправляем через жёстко заданные токен и айди
             fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -914,13 +898,11 @@
             showToast('🎉 Заказ оформлен!');
         }
 
-        // ============================================================
-        //  КАТЕГОРИИ
-        // ============================================================
+        // ================================================================
+        //  КАТЕГОРИИ (только Все и Жидкости)
+        // ================================================================
         function renderCategories() {
             const container = document.getElementById('categoriesContainer');
-            // можно сделать динамически, но у нас только две категории, пока оставим жёстко
-            // но для удобства сделаем из массива categories
             const categories = [
                 { id: 'all', label: 'Все', emoji: '' },
                 { id: 'liquids', label: 'Жидкости', emoji: '💧' }
@@ -941,9 +923,9 @@
             });
         }
 
-        // ============================================================
+        // ================================================================
         //  ИНИЦИАЛИЗАЦИЯ
-        // ============================================================
+        // ================================================================
         document.addEventListener('DOMContentLoaded', function() {
             loadData();
             applyTheme(currentTheme);
@@ -979,7 +961,7 @@
                 if (e.target === this) this.classList.remove('active');
             });
 
-            // Навигация (переключение вкладок – чисто визуальное)
+            // Навигация
             document.querySelectorAll('.nav-item').forEach(btn => {
                 btn.addEventListener('click', function() {
                     document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
@@ -988,7 +970,7 @@
                 });
             });
 
-            // Закрытие по Escape
+            // Escape
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') {
                     closeCart();
