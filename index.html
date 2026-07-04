@@ -6,7 +6,7 @@
     <title id="pageTitle">Cloud_Ost — Вейп Шоп</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        /* ========== CSS ПЕРЕМЕННЫЕ (меняются через тему) ========== */
+        /* ========== CSS ПЕРЕМЕННЫЕ ========== */
         :root {
             --primary: #E63946;
             --primary-dark: #B71C1C;
@@ -40,9 +40,7 @@
             --text-secondary: #4A4A5A;
             --text-muted: #8888A0;
             --shadow: 0 8px 32px rgba(0,0,0,0.08);
-            --toast-bg: #2E7D32;
             --scrollbar-track: #F0F0F0;
-            --scrollbar-thumb: var(--primary);
         }
 
         /* ========== БАЗОВЫЕ СТИЛИ ========== */
@@ -148,7 +146,7 @@
             padding: 6px 10px;
         }
 
-        /* Промо-баннер (может быть скрыт) */
+        /* Промо-баннер */
         .promo-banner {
             margin-top: 10px;
             background: rgba(255,255,255,0.08);
@@ -160,7 +158,7 @@
             backdrop-filter: blur(10px);
             border: 1px solid var(--border-color);
             color: var(--text-secondary);
-            display: none; /* по умолчанию скрыт, включается через настройки */
+            display: none;
         }
         .promo-banner.show { display: block; }
 
@@ -218,6 +216,7 @@
             border: 1px solid var(--border-color);
             transition: all 0.3s ease;
             box-shadow: var(--shadow);
+            position: relative;
         }
         .product-card:hover {
             transform: translateY(-6px);
@@ -228,7 +227,7 @@
             width: 80%;
             aspect-ratio: 1/1;
             margin: 0 auto 12px;
-            background: rgba(255,255,255,0.03);
+            background: #ffffff; /* <-- БЕЛЫЙ ФОН ТОЛЬКО В КРУГЕ */
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -422,7 +421,7 @@
         .cart-item-image {
             width: 50px;
             height: 50px;
-            background: rgba(255,255,255,0.03);
+            background: #ffffff; /* белый фон для иконок в корзине */
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -560,7 +559,7 @@
             font-size: 16px;
         }
 
-        /* Админ-панель (тёмная, но адаптируется под тему) */
+        /* Админ-панель */
         .admin-fab {
             position: fixed;
             bottom: 85px;
@@ -778,7 +777,7 @@
         }
         .setting-item label {
             font-weight: 500;
-            min-width: 120px;
+            min-width: 140px;
             color: var(--text-primary);
         }
         .setting-item input,
@@ -839,7 +838,6 @@
             from { transform: translateX(-50%) translateY(20px); opacity: 0; }
             to { transform: translateX(-50%) translateY(0); opacity: 1; }
         }
-        /* Кастомный скролл */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: var(--scrollbar-track); }
         ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 10px; }
@@ -868,7 +866,6 @@
     <div class="categories" id="categoriesContainer">
         <button class="category active" data-category="all">Все</button>
         <button class="category" data-category="liquids">💧 Жидкости</button>
-        <!-- сюда будут добавляться кастомные категории -->
     </div>
 
     <!-- ТОВАРЫ -->
@@ -948,7 +945,6 @@
     <div class="admin-panel" id="adminPanel">
         <div class="admin-container">
             <button class="admin-close-btn" id="adminClose">✕</button>
-            <!-- Логин -->
             <div id="adminLogin">
                 <div class="admin-password">
                     <h2>🔐 Панель управления</h2>
@@ -958,7 +954,6 @@
                     <div class="hint">Пароль по умолчанию: admin123</div>
                 </div>
             </div>
-            <!-- Контент админки -->
             <div id="adminContent" style="display:none;">
                 <h2>⚙️ Управление магазином</h2>
                 <div class="admin-tabs">
@@ -1073,6 +1068,14 @@
 
 Мы ценим доверие каждого клиента и стремимся сделать покупки максимально удобными, выгодными и приятными. Спасибо, что выбираете нас — мы только начинаем свой путь и будем рады стать вашим любимым вейп-шопом!</textarea>
                     </div>
+                    <div class="setting-item">
+                        <label>Токен бота (для отправки заказов)</label>
+                        <input type="text" id="botToken" placeholder="123456:ABC-DEF...">
+                    </div>
+                    <div class="setting-item">
+                        <label>Chat ID менеджера</label>
+                        <input type="text" id="managerChatId" placeholder="123456789">
+                    </div>
                     <button class="admin-btn" onclick="saveSettings()" style="width:100%; margin-top:16px;">💾 Сохранить настройки</button>
                 </div>
                 <!-- Backup -->
@@ -1096,7 +1099,7 @@
 
     <script>
         // ===========================
-        //  ДАННЫЕ (инициализация)
+        //  ДАННЫЕ
         // ===========================
         let products = [
             { id: 1, name: 'ElfQ Liquid', flavor: 'Apple Peach', desc: 'Сочный яблочно-персиковый микс', price: 350, oldPrice: 0, stock: 10, category: 'liquids', iconUrl: 'https://img.icons8.com/3d-fluency/96/apple.png', badge: '' },
@@ -1112,11 +1115,11 @@
         let cart = [];
         let showDiscounts = false;
         let showPromo = false;
-        let currentTheme = 'dark'; // 'dark' | 'light'
+        let currentTheme = 'dark';
         const ADMIN_PASSWORD = 'admin123';
 
         // ===========================
-        //  ЗАГРУЗКА / СОХРАНЕНИЕ
+        //  СОХРАНЕНИЕ / ЗАГРУЗКА
         // ===========================
         function saveData() {
             localStorage.setItem('cloud_ost_products', JSON.stringify(products));
@@ -1147,8 +1150,7 @@
         }
 
         function toggleTheme() {
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            applyTheme(newTheme);
+            applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
         }
 
         // ===========================
@@ -1175,6 +1177,7 @@
                 grid.innerHTML = `<p style="grid-column:1/-1; text-align:center; color:var(--text-secondary); padding:40px 0;">Нет товаров в этой категории</p>`;
                 return;
             }
+            const addLabel = document.getElementById('addToCartLabel')?.value || '🛒 Добавить';
             grid.innerHTML = filtered.map(p => {
                 const inCart = cart.find(i => i.id === p.id);
                 const qty = inCart ? inCart.quantity : 0;
@@ -1194,7 +1197,7 @@
                             ${isOnSale ? `<span class="price-old">${p.oldPrice} Kč</span>` : ''}
                             <span class="price-current">${p.price} Kč</span>
                         </div>
-                        <button class="add-to-cart" onclick="addToCart(${p.id})">${qty > 0 ? 'В корзине ('+qty+')' : document.getElementById('addToCartLabel')?.value || '🛒 Добавить'}</button>
+                        <button class="add-to-cart" onclick="addToCart(${p.id})">${qty > 0 ? 'В корзине ('+qty+')' : addLabel}</button>
                     </div>
                 `;
             }).join('');
@@ -1277,13 +1280,30 @@
             document.getElementById('cartOverlay').classList.remove('active');
         }
 
+        // ===========================
+        //  ОФОРМЛЕНИЕ ЗАКАЗА + ОТПРАВКА МЕНЕДЖЕРУ
+        // ===========================
         function checkout() {
             if (cart.length === 0) { showToast('🛒 Корзина пуста!'); return; }
             const total = cart.reduce((s, i) => s + i.price * i.quantity, 0);
-            const order = cart.map(i => `${i.name} (${i.flavor}) × ${i.quantity} = ${i.price * i.quantity} Kč`).join('\n');
+            const orderLines = cart.map(i => `${i.name} (${i.flavor}) × ${i.quantity} = ${i.price * i.quantity} Kč`);
+            const orderText = orderLines.join('\n');
             const tg = window.Telegram?.WebApp;
             const user = tg?.initDataUnsafe?.user?.username || 'Гость';
-            alert(`✅ Заказ оформлен!\n\n${order}\n\n💰 Итого: ${total} Kč\n\n👤 Клиент: @${user}\n\n📞 Скоро с вами свяжется менеджер.`);
+            const fullMessage = `✅ Новый заказ!\n\n${orderText}\n\n💰 Итого: ${total} Kč\n\n👤 Клиент: @${user}`;
+
+            // Отправка менеджеру через бота
+            const token = document.getElementById('botToken')?.value;
+            const chatId = document.getElementById('managerChatId')?.value;
+            if (token && chatId) {
+                fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: chatId, text: fullMessage })
+                }).catch(() => {});
+            }
+
+            alert(`✅ Заказ оформлен!\n\n${orderText}\n\n💰 Итого: ${total} Kč\n\n👤 Клиент: @${user}\n\n📞 Скоро с вами свяжется менеджер.`);
             cart = [];
             updateCartUI();
             closeCart();
@@ -1293,7 +1313,7 @@
         }
 
         // ===========================
-        //  КАТЕГОРИИ (рендер и управление)
+        //  КАТЕГОРИИ
         // ===========================
         function renderCategories() {
             const container = document.getElementById('categoriesContainer');
@@ -1302,7 +1322,7 @@
                 const btn = document.createElement('button');
                 btn.className = 'category' + (cat.id === 'all' ? ' active' : '');
                 btn.dataset.category = cat.id;
-                btn.textContent = cat.emoji + ' ' + cat.label;
+                btn.textContent = (cat.emoji ? cat.emoji + ' ' : '') + cat.label;
                 btn.addEventListener('click', function() {
                     document.querySelectorAll('.category').forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
@@ -1329,7 +1349,6 @@
             const input = document.getElementById('newCategoryName');
             const raw = input.value.trim();
             if (!raw) { alert('Введите название категории'); return; }
-            // извлекаем эмодзи (если есть)
             const emojiMatch = raw.match(/^(\p{Emoji}\s*)/u);
             const emoji = emojiMatch ? emojiMatch[0].trim() : '';
             const label = emojiMatch ? raw.replace(emojiMatch[0], '').trim() : raw;
@@ -1349,7 +1368,6 @@
             if (id === 'all') return;
             if (!confirm(`Удалить категорию?`)) return;
             categories = categories.filter(c => c.id !== id);
-            // Удаляем товары с этой категорией? Оставим, просто они не будут отображаться
             renderCategories();
             renderCategoryList();
             populateCategorySelect();
@@ -1365,7 +1383,7 @@
                 if (c.id === 'all') return;
                 const opt = document.createElement('option');
                 opt.value = c.id;
-                opt.textContent = c.emoji + ' ' + c.label;
+                opt.textContent = (c.emoji ? c.emoji + ' ' : '') + c.label;
                 select.appendChild(opt);
             });
         }
@@ -1474,7 +1492,7 @@
         }
 
         // ===========================
-        //  НАСТРОЙКИ (тексты и тема)
+        //  НАСТРОЙКИ (тексты, тема, бот)
         // ===========================
         function loadSettings() {
             const saved = localStorage.getItem('cloud_ost_settings');
@@ -1489,6 +1507,8 @@
                     document.getElementById('addToCartLabel').value = s.addToCartLabel || '🛒 Добавить';
                     document.getElementById('checkoutLabel').value = s.checkoutLabel || 'Оформить заказ';
                     document.getElementById('aboutTextInput').value = s.aboutText || document.getElementById('aboutTextInput').value;
+                    document.getElementById('botToken').value = s.botToken || '';
+                    document.getElementById('managerChatId').value = s.managerChatId || '';
                     // Применяем к интерфейсу
                     document.getElementById('shopNameDisplay').textContent = s.shopName || 'Cloud_Ost';
                     document.getElementById('pageTitle').textContent = s.pageTitle || 'Cloud_Ost — Вейп Шоп';
@@ -1500,7 +1520,6 @@
                     document.getElementById('aboutText').innerHTML = s.aboutText || document.getElementById('aboutTextInput').value;
                 } catch(e) {}
             } else {
-                // Значения по умолчанию
                 document.getElementById('showPromo').value = 'false';
                 document.getElementById('showDiscounts').value = 'false';
                 showPromo = false;
@@ -1518,7 +1537,9 @@
                 showDiscounts: document.getElementById('showDiscounts').value === 'true',
                 addToCartLabel: document.getElementById('addToCartLabel').value,
                 checkoutLabel: document.getElementById('checkoutLabel').value,
-                aboutText: document.getElementById('aboutTextInput').value
+                aboutText: document.getElementById('aboutTextInput').value,
+                botToken: document.getElementById('botToken').value,
+                managerChatId: document.getElementById('managerChatId').value
             };
             localStorage.setItem('cloud_ost_settings', JSON.stringify(settings));
             // Применяем
@@ -1530,7 +1551,6 @@
             showPromo = settings.showPromo;
             showDiscounts = settings.showDiscounts;
             document.getElementById('aboutText').innerHTML = settings.aboutText;
-            // Обновляем кнопки в карточках (текст добавить)
             renderProducts(document.querySelector('.category.active')?.dataset?.category || 'all');
             showToast('✅ Настройки сохранены!');
             saveData();
@@ -1702,7 +1722,7 @@
                 }
             });
 
-            // Навигация (переключение вкладок)
+            // Навигация
             document.querySelectorAll('.nav-item').forEach(btn => {
                 btn.addEventListener('click', function() {
                     document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
