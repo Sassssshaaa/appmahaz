@@ -6,11 +6,10 @@
     <title id="pageTitle">Cloud_Ost — Вейп Шоп</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        /* ========== CSS ПЕРЕМЕННЫЕ ========== */
+        * { margin:0; padding:0; box-sizing:border-box; }
         :root {
             --primary: #E63946;
             --primary-dark: #B71C1C;
-            --primary-light: #FF6B7A;
             --bg-body: radial-gradient(ellipse at top, #2C0A0A, #0D0D0D 70%);
             --bg-header: linear-gradient(135deg, rgba(230,57,70,0.9), rgba(20,0,0,0.95));
             --bg-card: rgba(20,20,25,0.85);
@@ -26,8 +25,6 @@
             --scrollbar-track: #0D0D0D;
             --scrollbar-thumb: var(--primary);
         }
-
-        /* ========== СВЕТЛАЯ ТЕМА ========== */
         [data-theme="light"] {
             --bg-body: radial-gradient(ellipse at top, #FFF0F0, #FFFFFF 70%);
             --bg-header: linear-gradient(135deg, #FF6B7A, #E63946);
@@ -42,9 +39,6 @@
             --shadow: 0 8px 32px rgba(0,0,0,0.08);
             --scrollbar-track: #F0F0F0;
         }
-
-        /* ========== БАЗОВЫЕ СТИЛИ ========== */
-        * { margin:0; padding:0; box-sizing:border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg-body);
@@ -141,12 +135,7 @@
             justify-content: center;
             border: 2px solid var(--bg-body);
         }
-        .theme-toggle {
-            font-size: 20px;
-            padding: 6px 10px;
-        }
-
-        /* Промо-баннер */
+        .theme-toggle { font-size: 20px; padding: 6px 10px; }
         .promo-banner {
             margin-top: 10px;
             background: rgba(255,255,255,0.08);
@@ -161,8 +150,6 @@
             display: none;
         }
         .promo-banner.show { display: block; }
-
-        /* Категории */
         .categories {
             display: flex;
             gap: 10px;
@@ -195,8 +182,6 @@
             box-shadow: 0 4px 20px rgba(230,57,70,0.4);
         }
         .category:hover { transform: scale(1.05); }
-
-        /* Товары */
         .product-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -205,9 +190,7 @@
             max-width: 600px;
             margin: 0 auto;
         }
-        @media (max-width: 380px) {
-            .product-grid { grid-template-columns: 1fr; }
-        }
+        @media (max-width: 380px) { .product-grid { grid-template-columns: 1fr; } }
         .product-card {
             background: var(--bg-card);
             backdrop-filter: blur(12px);
@@ -227,7 +210,7 @@
             width: 80%;
             aspect-ratio: 1/1;
             margin: 0 auto 12px;
-            background: #ffffff; /* <-- БЕЛЫЙ ФОН ТОЛЬКО В КРУГЕ */
+            background: #ffffff;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -247,27 +230,10 @@
             transition: transform 0.4s ease;
         }
         .product-card:hover .product-image img { transform: scale(1.08); }
-        .product-name {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 2px;
-        }
-        .product-flavor {
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin-bottom: 2px;
-        }
-        .product-desc {
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-bottom: 6px;
-            line-height: 1.3;
-        }
-        .product-stock {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
-        }
+        .product-name { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
+        .product-flavor { font-size: 13px; color: var(--text-secondary); margin-bottom: 2px; }
+        .product-desc { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; line-height: 1.3; }
+        .product-stock { font-size: 12px; color: var(--text-secondary); margin-bottom: 8px; }
         .product-stock.in-stock { color: #4ECB71; }
         .product-price {
             display: flex;
@@ -275,15 +241,8 @@
             gap: 8px;
             margin-bottom: 12px;
         }
-        .price-old {
-            font-size: 13px;
-            color: var(--text-secondary);
-            text-decoration: line-through;
-        }
-        .price-current {
-            font-size: 22px;
-            font-weight: 700;
-        }
+        .price-old { font-size: 13px; color: var(--text-secondary); text-decoration: line-through; }
+        .price-current { font-size: 22px; font-weight: 700; }
         .add-to-cart {
             width: 100%;
             padding: 12px;
@@ -302,8 +261,6 @@
             transform: scale(1.02);
         }
         .add-to-cart:active { transform: scale(0.95); }
-
-        /* Нижняя навигация */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -352,8 +309,6 @@
             justify-content: center;
             border: 2px solid var(--bg-nav);
         }
-
-        /* Корзина (сайдбар) */
         .cart-sidebar {
             position: fixed;
             top: 0;
@@ -421,7 +376,7 @@
         .cart-item-image {
             width: 50px;
             height: 50px;
-            background: #ffffff; /* белый фон для иконок в корзине */
+            background: #ffffff;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -483,8 +438,6 @@
             background: var(--primary-dark);
             transform: scale(1.02);
         }
-
-        /* Модалка О нас */
         .modal {
             position: fixed;
             top: 0;
@@ -553,13 +506,7 @@
             align-items: center;
             gap: 10px;
         }
-        .about-list li::before {
-            content: "✦";
-            color: var(--primary);
-            font-size: 16px;
-        }
-
-        /* Админ-панель */
+        .about-list li::before { content: "✦"; color: var(--primary); font-size: 16px; }
         .admin-fab {
             position: fixed;
             bottom: 85px;
@@ -723,15 +670,6 @@
             display: flex;
             gap: 8px;
         }
-        .admin-product-actions button {
-            padding: 6px 14px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
         .admin-product-actions .edit-btn {
             background: var(--primary);
             color: white;
@@ -844,7 +782,6 @@
     </style>
 </head>
 <body id="appBody">
-    <!-- ШАПКА -->
     <header class="header">
         <div class="header-content">
             <div class="logo">
@@ -852,7 +789,7 @@
                 <span class="logo-text" id="shopNameDisplay">Cloud_Ost</span>
             </div>
             <div class="header-actions">
-                <button class="theme-toggle" id="themeToggle" title="Переключить тему">🌙</button>
+                <button class="theme-toggle" id="themeToggle">🌙</button>
                 <button onclick="alert('🔍 Поиск скоро появится!')">🔍</button>
                 <button id="cartBtn">🛒 <span class="cart-count" id="cartCount">0</span></button>
             </div>
@@ -861,17 +798,11 @@
             <span id="promoTextDisplay">🔥 Скидка 25% на первую покупку! Промокод: CLOUD25</span>
         </div>
     </header>
-
-    <!-- КАТЕГОРИИ -->
     <div class="categories" id="categoriesContainer">
         <button class="category active" data-category="all">Все</button>
         <button class="category" data-category="liquids">💧 Жидкости</button>
     </div>
-
-    <!-- ТОВАРЫ -->
     <div class="product-grid" id="productGrid"></div>
-
-    <!-- НИЖНЯЯ НАВИГАЦИЯ -->
     <nav class="bottom-nav" id="bottomNav">
         <button class="nav-item active" data-page="catalog">
             <span class="nav-icon">📋</span>
@@ -887,8 +818,6 @@
             <span class="nav-label" id="navAboutLabel">О нас</span>
         </button>
     </nav>
-
-    <!-- КОРЗИНА (сайдбар) -->
     <div class="cart-overlay" id="cartOverlay"></div>
     <div class="cart-sidebar" id="cartSidebar">
         <div class="cart-header">
@@ -910,8 +839,6 @@
             <button class="checkout-btn" id="checkoutBtn">Оформить заказ</button>
         </div>
     </div>
-
-    <!-- МОДАЛКА "О НАС" -->
     <div class="modal" id="aboutModal">
         <div class="modal-content">
             <button class="modal-close" id="closeAbout">✕</button>
@@ -935,13 +862,9 @@
             </div>
         </div>
     </div>
-
-    <!-- КНОПКА АДМИНКИ -->
     <div class="admin-fab">
         <button id="adminToggle" title="Панель управления">⚙️</button>
     </div>
-
-    <!-- АДМИН-ПАНЕЛЬ -->
     <div class="admin-panel" id="adminPanel">
         <div class="admin-container">
             <button class="admin-close-btn" id="adminClose">✕</button>
@@ -963,9 +886,7 @@
                     <button class="admin-tab" data-tab="settings">⚙️ Настройки</button>
                     <button class="admin-tab" data-tab="backup">💾 Backup</button>
                 </div>
-                <!-- Товары -->
                 <div class="admin-tab-content active" id="tab-products"><div id="adminProductList"></div></div>
-                <!-- Добавить -->
                 <div class="admin-tab-content" id="tab-add">
                     <h3 style="margin-bottom:16px;">➕ Добавить товар</h3>
                     <div class="admin-form-group">
@@ -1006,7 +927,6 @@
                     </div>
                     <button class="admin-btn success" onclick="addProduct()" style="width:100%;">➕ Добавить товар</button>
                 </div>
-                <!-- Категории -->
                 <div class="admin-tab-content" id="tab-categories">
                     <h3 style="margin-bottom:16px;">🏷️ Управление категориями</h3>
                     <div class="admin-form-group">
@@ -1016,7 +936,6 @@
                     <button class="admin-btn success" onclick="addCategory()" style="width:100%;">➕ Добавить категорию</button>
                     <div style="margin-top:20px;" id="categoryList"></div>
                 </div>
-                <!-- Настройки -->
                 <div class="admin-tab-content" id="tab-settings">
                     <h3 style="margin-bottom:16px;">⚙️ Настройки текстов и интерфейса</h3>
                     <div class="setting-item">
@@ -1078,7 +997,6 @@
                     </div>
                     <button class="admin-btn" onclick="saveSettings()" style="width:100%; margin-top:16px;">💾 Сохранить настройки</button>
                 </div>
-                <!-- Backup -->
                 <div class="admin-tab-content" id="tab-backup">
                     <h3 style="margin-bottom:16px;">💾 Бэкап и восстановление</h3>
                     <div class="admin-buttons-group">
@@ -1096,7 +1014,6 @@
             </div>
         </div>
     </div>
-
     <script>
         // ===========================
         //  ДАННЫЕ
@@ -1281,35 +1198,53 @@
         }
 
         // ===========================
-        //  ОФОРМЛЕНИЕ ЗАКАЗА + ОТПРАВКА МЕНЕДЖЕРУ
+        //  ОФОРМЛЕНИЕ ЗАКАЗА + ОТПРАВКА МЕНЕДЖЕРУ (ИСПРАВЛЕННАЯ)
         // ===========================
         function checkout() {
             if (cart.length === 0) { showToast('🛒 Корзина пуста!'); return; }
+
             const total = cart.reduce((s, i) => s + i.price * i.quantity, 0);
             const orderLines = cart.map(i => `${i.name} (${i.flavor}) × ${i.quantity} = ${i.price * i.quantity} Kč`);
             const orderText = orderLines.join('\n');
             const tg = window.Telegram?.WebApp;
             const user = tg?.initDataUnsafe?.user?.username || 'Гость';
-            const fullMessage = `✅ Новый заказ!\n\n${orderText}\n\n💰 Итого: ${total} Kč\n\n👤 Клиент: @${user}`;
+            const fullMessage = `✅ *Новый заказ!*\n\n${orderText}\n\n💰 *Итого:* ${total} Kč\n\n👤 *Клиент:* @${user}`;
 
-            // Отправка менеджеру через бота
-            const token = document.getElementById('botToken')?.value;
-            const chatId = document.getElementById('managerChatId')?.value;
-            if (token && chatId) {
-                fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ chat_id: chatId, text: fullMessage })
-                }).catch(() => {});
+            const token = document.getElementById('botToken')?.value.trim();
+            const chatId = document.getElementById('managerChatId')?.value.trim();
+
+            if (!token || !chatId) {
+                alert('⚠️ Настройки бота не заполнены!\n\nПерейдите в админ-панель → Настройки и укажите:\n- Токен бота (получить у @BotFather)\n- Chat ID менеджера (получить у @userinfobot)\n\nЗаказ не был отправлен, но вы можете скопировать его вручную:\n\n' + fullMessage);
+                showToast('❌ Бот не настроен! Заказ не отправлен.');
+                return;
             }
 
+            fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: chatId, text: fullMessage, parse_mode: 'Markdown' })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.ok) {
+                    showToast('✅ Заказ отправлен менеджеру!');
+                } else {
+                    alert('❌ Ошибка отправки: ' + (data.description || 'неизвестная ошибка') + '\n\nСкопируйте заказ вручную:\n' + fullMessage);
+                    showToast('❌ Не удалось отправить заказ');
+                }
+            })
+            .catch(err => {
+                alert('❌ Ошибка соединения: ' + err.message + '\n\nСкопируйте заказ вручную:\n' + fullMessage);
+                showToast('❌ Ошибка отправки');
+            });
+
             alert(`✅ Заказ оформлен!\n\n${orderText}\n\n💰 Итого: ${total} Kč\n\n👤 Клиент: @${user}\n\n📞 Скоро с вами свяжется менеджер.`);
+
             cart = [];
             updateCartUI();
             closeCart();
             renderProducts(document.querySelector('.category.active')?.dataset?.category || 'all');
             saveData();
-            showToast('🎉 Заказ оформлен!');
         }
 
         // ===========================
@@ -1492,7 +1427,7 @@
         }
 
         // ===========================
-        //  НАСТРОЙКИ (тексты, тема, бот)
+        //  НАСТРОЙКИ
         // ===========================
         function loadSettings() {
             const saved = localStorage.getItem('cloud_ost_settings');
@@ -1509,7 +1444,6 @@
                     document.getElementById('aboutTextInput').value = s.aboutText || document.getElementById('aboutTextInput').value;
                     document.getElementById('botToken').value = s.botToken || '';
                     document.getElementById('managerChatId').value = s.managerChatId || '';
-                    // Применяем к интерфейсу
                     document.getElementById('shopNameDisplay').textContent = s.shopName || 'Cloud_Ost';
                     document.getElementById('pageTitle').textContent = s.pageTitle || 'Cloud_Ost — Вейп Шоп';
                     document.getElementById('promoTextDisplay').textContent = s.promoText || '🔥 Скидка 25% на первую покупку! Промокод: CLOUD25';
@@ -1542,7 +1476,6 @@
                 managerChatId: document.getElementById('managerChatId').value
             };
             localStorage.setItem('cloud_ost_settings', JSON.stringify(settings));
-            // Применяем
             document.getElementById('shopNameDisplay').textContent = settings.shopName;
             document.getElementById('pageTitle').textContent = settings.pageTitle;
             document.getElementById('promoTextDisplay').textContent = settings.promoText;
@@ -1668,16 +1601,13 @@
             updateCartUI();
             populateCategorySelect();
 
-            // Переключение темы
             document.getElementById('themeToggle').addEventListener('click', toggleTheme);
 
-            // Корзина
             document.getElementById('cartBtn').addEventListener('click', toggleCart);
             document.getElementById('closeCart').addEventListener('click', closeCart);
             document.getElementById('cartOverlay').addEventListener('click', closeCart);
             document.getElementById('checkoutBtn').addEventListener('click', checkout);
 
-            // О нас
             document.getElementById('aboutBtn').addEventListener('click', () => {
                 document.getElementById('aboutModal').classList.add('active');
             });
@@ -1688,7 +1618,6 @@
                 if (e.target === this) this.classList.remove('active');
             });
 
-            // Админка
             document.getElementById('adminToggle').addEventListener('click', () => {
                 document.getElementById('adminPanel').classList.toggle('active');
                 document.getElementById('adminPassword').value = '';
@@ -1703,7 +1632,6 @@
                 if (e.target === this) this.classList.remove('active');
             });
 
-            // Табы админки
             document.querySelectorAll('.admin-tab').forEach(tab => {
                 tab.addEventListener('click', function() {
                     document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
@@ -1713,7 +1641,6 @@
                 });
             });
 
-            // Escape
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') {
                     document.getElementById('adminPanel').classList.remove('active');
@@ -1722,7 +1649,6 @@
                 }
             });
 
-            // Навигация
             document.querySelectorAll('.nav-item').forEach(btn => {
                 btn.addEventListener('click', function() {
                     document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
