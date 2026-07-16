@@ -634,14 +634,7 @@
 
     <script>
         // ================================================================
-        //  ❗ ЗДЕСЬ ТВОЙ ТОКЕН И CHAT ID (ЗАМЕНИ НА СВОИ, КОГДА НАДО)
-        //  Ты можешь найти их по словам BOT_TOKEN и CHAT_ID
-        // ================================================================
-        const BOT_TOKEN = '8800322131:AAGyDmhejJga0F65FobakauJdTcRE_8KPnw';
-        const CHAT_ID = '8461436945';
-
-        // ================================================================
-        //  ТОВАРЫ – ТОЛЬКО ОДНА ПОЗИЦИЯ, КАК ТЫ ПРОСИЛ
+        //  ТОВАРЫ – ТОЛЬКО ОДНА ПОЗИЦИЯ
         // ================================================================
         let products = [
             {
@@ -839,12 +832,12 @@
         }
 
         // ================================================================
-        //  ОФОРМЛЕНИЕ ЗАКАЗА + СПИСАНИЕ + ОТПРАВКА МЕНЕДЖЕРУ (БЕЗ АДМИНКИ)
+        //  ОФОРМЛЕНИЕ ЗАКАЗА – ОТПРАВКА НА БЭКЕНД (PythonAnywhere)
         // ================================================================
         function checkout() {
             if (cart.length === 0) { showToast('🛒 Корзина пуста!'); return; }
 
-            // Проверяем остатки
+            // Проверяем остатки (локально, чтобы сразу показать ошибку)
             for (let item of cart) {
                 const product = products.find(p => p.id === item.id);
                 if (!product || product.stock < item.quantity) {
@@ -853,49 +846,41 @@
                 }
             }
 
-            // Списываем
-            for (let item of cart) {
-                const product = products.find(p => p.id === item.id);
-                if (product) {
-                    product.stock -= item.quantity;
-                }
-            }
-
             const total = cart.reduce((s, i) => s + i.price * i.quantity, 0);
             const orderLines = cart.map(i => `${i.name} (${i.flavor}) × ${i.quantity} = ${i.price * i.quantity} Kč`);
             const orderText = orderLines.join('\n');
             const tg = window.Telegram?.WebApp;
             const user = tg?.initDataUnsafe?.user?.username || 'Гость';
-            const fullMessage = `✅ *Новый заказ!*\n\n${orderText}\n\n💰 *Итого:* ${total} Kč\n\n👤 *Клиент:* @${user}`;
 
-            // Отправляем через жёстко заданные токен и айди
-            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+            // Отправляем на сервер (бэкенд сам спишет товары и отправит сообщение менеджеру)
+            fetch('https://Sasha123321.pythonanywhere.com/order', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: CHAT_ID, text: fullMessage, parse_mode: 'Markdown' })
+                body: JSON.stringify({
+                    cart: cart,      // массив товаров { id, quantity, ... }
+                    user: user
+                })
             })
             .then(res => res.json())
             .then(data => {
-                if (data.ok) {
-                    showToast('✅ Заказ отправлен менеджеру!');
+                if (data.status === 'ok') {
+                    showToast('✅ Заказ отправлен!');
+                    // Очищаем корзину
+                    cart = [];
+                    updateCartUI();
+                    closeCart();
+                    saveData();
+                    refreshDisplay();
+                    alert(`✅ Заказ оформлен!\n\n${orderText}\n\n💰 Итого: ${total} Kč\n\n👤 Клиент: @${user}\n\n📞 Менеджер свяжется с вами.`);
                 } else {
-                    alert('❌ Ошибка отправки: ' + (data.description || 'неизвестная ошибка') + '\n\nСкопируйте заказ вручную:\n' + fullMessage);
-                    showToast('❌ Не удалось отправить заказ');
+                    alert('❌ Ошибка: ' + data.message);
+                    showToast('❌ Ошибка заказа');
                 }
             })
             .catch(err => {
-                alert('❌ Ошибка соединения: ' + err.message + '\n\nСкопируйте заказ вручную:\n' + fullMessage);
-                showToast('❌ Ошибка отправки');
+                alert('❌ Ошибка соединения: ' + err.message + '\n\nЗаказ не отправлен. Попробуйте позже.');
+                showToast('❌ Ошибка соединения');
             });
-
-            alert(`✅ Заказ оформлен!\n\n${orderText}\n\n💰 Итого: ${total} Kč\n\n👤 Клиент: @${user}\n\n📞 Менеджер свяжется с вами.`);
-
-            cart = [];
-            updateCartUI();
-            closeCart();
-            saveData();
-            refreshDisplay();
-            showToast('🎉 Заказ оформлен!');
         }
 
         // ================================================================
